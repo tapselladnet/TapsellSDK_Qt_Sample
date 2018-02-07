@@ -9,10 +9,10 @@ std::map<std::string, ON_EXPIRING_CB> Tapsell::onExpiringCbs;
 std::map<std::string, ON_OPENED_CB> Tapsell::onOpenedCbs;
 std::map<std::string, ON_CLOSED_CB> Tapsell::onClosedCbs;
 
-//std::map<std::string, ON_NATIVE_BANNER_AD_AVAILABLE_CB> Tapsell::onNativeBannerAdAvailableCbs;
-//std::map<std::string, ON_NATIVE_BANNER_ERROR_CB> Tapsell::onNativeBannerErrorCbs;
-//std::map<std::string, ON_NATIVE_BANNER_NO_AD_AVAILABLE_CB> Tapsell::onNativeBannerNoAdAvailableCbs;
-//std::map<std::string, ON_NATIVE_BANNER_NO_NETWORK_CB> Tapsell::onNativeBannerNoNetworkCbs;
+std::map<std::string, ON_NATIVE_BANNER_AD_AVAILABLE_CB> Tapsell::onNativeBannerAdAvailableCbs;
+std::map<std::string, ON_NATIVE_BANNER_ERROR_CB> Tapsell::onNativeBannerErrorCbs;
+std::map<std::string, ON_NATIVE_BANNER_NO_AD_AVAILABLE_CB> Tapsell::onNativeBannerNoAdAvailableCbs;
+std::map<std::string, ON_NATIVE_BANNER_NO_NETWORK_CB> Tapsell::onNativeBannerNoNetworkCbs;
 
 extern "C" {
 JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onAdShowFinished(
@@ -150,4 +150,77 @@ JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onOpened(JNIEnv *env,
     Tapsell::onOpenedCbs[zoneId](QString::fromStdString(adId));
     Tapsell::onOpenedCbs.erase(zoneId);
   }
+}
+
+extern "C" {
+JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onNativeBannerAdAvailable(
+        JNIEnv *env, jobject thiz, jstring jZoneId, jstring jAdId, jstring jTitle, jstring jDescription,
+                              jstring jIconUrl, jstring jCtaText, jstring jPortraitUrl, jstring jLandscapeUrl);
+};
+
+JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onNativeBannerAdAvailable(
+        JNIEnv *env, jobject thiz, jstring jZoneId, jstring jAdId, jstring jTitle, jstring jDescription,
+                              jstring jIconUrl, jstring jCtaText, jstring jPortraitUrl, jstring jLandscapeUrl) {
+    std::string zoneId = env->GetStringUTFChars(jZoneId, NULL);
+    std::string adId = env->GetStringUTFChars(jAdId, NULL);
+    std::string title = env->GetStringUTFChars(jTitle, NULL);
+    std::string description = env->GetStringUTFChars(jDescription, NULL);
+    std::string iconUrl = env->GetStringUTFChars(jIconUrl, NULL);
+    std::string ctaText = env->GetStringUTFChars(jCtaText, NULL);
+    std::string portraitUrl = env->GetStringUTFChars(jPortraitUrl, NULL);
+    std::string landscapeUrl = env->GetStringUTFChars(jLandscapeUrl, NULL);
+    if (Tapsell::onNativeBannerAdAvailableCbs.find(zoneId) !=
+        Tapsell::onNativeBannerAdAvailableCbs.end()) {
+        Tapsell::onNativeBannerAdAvailableCbs[zoneId](QString::fromStdString(adId), QString::fromStdString(title), QString::fromStdString(description), 
+        	QString::fromStdString(iconUrl), QString::fromStdString(ctaText), QString::fromStdString(portraitUrl), QString::fromStdString(landscapeUrl));
+        Tapsell::onNativeBannerAdAvailableCbs.erase(zoneId);
+    }
+}
+
+extern "C" {
+JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onNativeBannerError(JNIEnv *env,
+                                                             jobject thiz,
+                                                             jstring jZoneId,
+                                                             jstring jError);
+};
+
+JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onNativeBannerError(JNIEnv *env,
+                                                             jobject thiz,
+                                                             jstring jZoneId,
+                                                             jstring jError) {
+    std::string zoneId = env->GetStringUTFChars(jZoneId, NULL);
+    std::string error = env->GetStringUTFChars(jError, NULL);
+    if (Tapsell::onNativeBannerErrorCbs.find(zoneId) != Tapsell::onNativeBannerErrorCbs.end()) {
+        Tapsell::onNativeBannerErrorCbs[zoneId](QString::fromStdString(error));
+        Tapsell::onNativeBannerErrorCbs.erase(zoneId);
+    }
+}
+
+extern "C" {
+JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onNativeBannerNoAdAvailable(
+        JNIEnv *env, jobject thiz, jstring jZoneId);
+};
+
+JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onNativeBannerNoAdAvailable(
+        JNIEnv *env, jobject thiz, jstring jZoneId) {
+    std::string zoneId = env->GetStringUTFChars(jZoneId, NULL);
+    if (Tapsell::onNativeBannerNoAdAvailableCbs.find(zoneId) !=
+        Tapsell::onNativeBannerNoAdAvailableCbs.end()) {
+        Tapsell::onNativeBannerNoAdAvailableCbs[zoneId]();
+        Tapsell::onNativeBannerNoAdAvailableCbs.erase(zoneId);
+    }
+}
+
+extern "C" {
+JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onNativeBannerNoNetwork(
+        JNIEnv *env, jobject thiz, jstring jZoneId);
+};
+
+JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onNativeBannerNoNetwork(
+        JNIEnv *env, jobject thiz, jstring jZoneId) {
+    std::string zoneId = env->GetStringUTFChars(jZoneId, NULL);
+    if (Tapsell::onNativeBannerNoNetworkCbs.find(zoneId) != Tapsell::onNativeBannerNoNetworkCbs.end()) {
+        Tapsell::onNativeBannerNoNetworkCbs[zoneId]();
+        Tapsell::onNativeBannerNoNetworkCbs.erase(zoneId);
+    }
 }

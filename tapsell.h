@@ -22,10 +22,10 @@ const std::string TAPSELL_CLASS = "ir/tapsell/sdk/Tapsell";
 #define ON_OPENED_CB std::function<void(QString)>
 #define ON_CLOSED_CB std::function<void(QString)>
 
-//#define ON_NATIVE_BANNER_AD_AVAILABLE_CB std::function<void(QString, QString, QString, QString, QString, QString, QString)>
-//#define ON_NATIVE_BANNER_ERROR_CB std::function<void(QString)>
-//#define ON_NATIVE_BANNER_NO_AD_AVAILABLE_CB std::function<void()>
-//#define ON_NATIVE_BANNER_NO_NETWORK_CB std::function<void()>
+#define ON_NATIVE_BANNER_AD_AVAILABLE_CB std::function<void(QString, QString, QString, QString, QString, QString, QString)>
+#define ON_NATIVE_BANNER_ERROR_CB std::function<void(QString)>
+#define ON_NATIVE_BANNER_NO_AD_AVAILABLE_CB std::function<void()>
+#define ON_NATIVE_BANNER_NO_NETWORK_CB std::function<void()>
 
 #define ROTATION_LOCKED_PORTRAIT 1
 #define ROTATION_LOCKED_LANDSCAPE 2
@@ -106,48 +106,24 @@ public:
         QAndroidJniObject::callStaticMethod<void>(TAPSELL_CLASS.c_str(), "clearBandwidthUsageConstrains", "(Landroid/content/Context;)V", QtAndroid::androidContext().object());
     }
 
-//    static void requestNativeBannerAd(std::string zoneId, ON_NATIVE_BANNER_AD_AVAILABLE_CB onAdAvailable,
-//                          ON_NATIVE_BANNER_NO_AD_AVAILABLE_CB onNoAdAvailable, ON_NATIVE_BANNER_NO_NETWORK_CB onNoNetwork,
-//                          ON_NATIVE_BANNER_ERROR_CB onError) {
-//        onNativeBannerAdAvailableCbs[zoneId] = onAdAvailable;
-//        onNativeBannerErrorCbs[zoneId] = onError;
-//        onNativeBannerNoAdAvailableCbs[zoneId] = onNoAdAvailable;
-//        onNativeBannerNoNetworkCbs[zoneId] = onNoNetwork;
+    static void requestNativeBannerAd(QString zoneId, ON_NATIVE_BANNER_AD_AVAILABLE_CB onAdAvailable,
+                          ON_NATIVE_BANNER_NO_AD_AVAILABLE_CB onNoAdAvailable, ON_NATIVE_BANNER_NO_NETWORK_CB onNoNetwork,
+                          ON_NATIVE_BANNER_ERROR_CB onError) {
+        onNativeBannerAdAvailableCbs[zoneId.toStdString()] = onAdAvailable;
+        onNativeBannerErrorCbs[zoneId.toStdString()] = onError;
+        onNativeBannerNoAdAvailableCbs[zoneId.toStdString()] = onNoAdAvailable;
+        onNativeBannerNoNetworkCbs[zoneId.toStdString()] = onNoNetwork;
 
-//        cocos2d::JniMethodInfo methodInfo;
-//        if (!cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/Tapsell",
-//                                                     "requestNativeBannerAd", "(Ljava/lang/String;)V")) {
-//            CCLOG("METHOD NOT FOUND");
-//            return;
-//        }
-//        jstring jZoneId = methodInfo.env->NewStringUTF(zoneId.c_str());
-//        methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, jZoneId);
-//        methodInfo.env->DeleteLocalRef(methodInfo.classID);
-//    }
+        QAndroidJniObject::callStaticMethod<void>(TAPSELL_CLASS.c_str(), "requestNativeBannerAd", "(Landroid/app/Activity;Ljava/lang/String;)V", QtAndroid::androidActivity().object(), QAndroidJniObject::fromString(zoneId).object<jstring>());
+    }
 
-//    static void onNativeBannerAdShown(std::string adId) {
-//        cocos2d::JniMethodInfo methodInfo;
-//        if (!cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/Tapsell",
-//                                                     "nativeBannerAdShown", "(Ljava/lang/String;)V")) {
-//            CCLOG("METHOD NOT FOUND");
-//            return;
-//        }
-//        jstring jAdId = methodInfo.env->NewStringUTF(adId.c_str());
-//        methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, jAdId);
-//        methodInfo.env->DeleteLocalRef(methodInfo.classID);
-//    }
+    static void onNativeBannerAdShown(QString adId) {
+        QAndroidJniObject::callStaticMethod<void>(TAPSELL_CLASS.c_str(), "nativeBannerAdShown", "(Landroid/content/Context;Ljava/lang/String;)V", QtAndroid::androidContext().object(), QAndroidJniObject::fromString(adId).object<jstring>());
+    }
 
-//    static void onNativeBannerAdClicked(std::string adId) {
-//        cocos2d::JniMethodInfo methodInfo;
-//        if (!cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/Tapsell",
-//                                                     "nativeBannerAdClicked", "(Ljava/lang/String;)V")) {
-//            CCLOG("METHOD NOT FOUND");
-//            return;
-//        }
-//        jstring jAdId = methodInfo.env->NewStringUTF(adId.c_str());
-//        methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, jAdId);
-//        methodInfo.env->DeleteLocalRef(methodInfo.classID);
-//    }
+    static void onNativeBannerAdClicked(QString adId) {
+        QAndroidJniObject::callStaticMethod<void>(TAPSELL_CLASS.c_str(), "nativeBannerAdClicked", "(Landroid/content/Context;Ljava/lang/String;)V", QtAndroid::androidContext().object(), QAndroidJniObject::fromString(adId).object<jstring>());
+    }
 
 
     static ON_AD_SHOW_FINISHED onAdShowFinishedCb;
@@ -159,10 +135,10 @@ public:
     static std::map<std::string, ON_OPENED_CB> onOpenedCbs;
     static std::map<std::string, ON_CLOSED_CB> onClosedCbs;
 
-//    static std::map<std::string, ON_NATIVE_BANNER_AD_AVAILABLE_CB> onNativeBannerAdAvailableCbs;
-//    static std::map<std::string, ON_NATIVE_BANNER_ERROR_CB> onNativeBannerErrorCbs;
-//    static std::map<std::string, ON_NATIVE_BANNER_NO_AD_AVAILABLE_CB> onNativeBannerNoAdAvailableCbs;
-//    static std::map<std::string, ON_NATIVE_BANNER_NO_NETWORK_CB> onNativeBannerNoNetworkCbs;
+    static std::map<std::string, ON_NATIVE_BANNER_AD_AVAILABLE_CB> onNativeBannerAdAvailableCbs;
+    static std::map<std::string, ON_NATIVE_BANNER_ERROR_CB> onNativeBannerErrorCbs;
+    static std::map<std::string, ON_NATIVE_BANNER_NO_AD_AVAILABLE_CB> onNativeBannerNoAdAvailableCbs;
+    static std::map<std::string, ON_NATIVE_BANNER_NO_NETWORK_CB> onNativeBannerNoNetworkCbs;
 };
 
 
