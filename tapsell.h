@@ -27,6 +27,11 @@ const std::string TAPSELL_CLASS = "ir/tapsell/sdk/Tapsell";
 #define ON_NATIVE_BANNER_NO_AD_AVAILABLE_CB std::function<void()>
 #define ON_NATIVE_BANNER_NO_NETWORK_CB std::function<void()>
 
+#define ON_NATIVE_VIDEO_AD_AVAILABLE_CB std::function<void(QString, QString, QString, QString, QString, QString)>
+#define ON_NATIVE_VIDEO_ERROR_CB std::function<void(QString)>
+#define ON_NATIVE_VIDEO_NO_AD_AVAILABLE_CB std::function<void()>
+#define ON_NATIVE_VIDEO_NO_NETWORK_CB std::function<void()>
+
 #define ROTATION_LOCKED_PORTRAIT 1
 #define ROTATION_LOCKED_LANDSCAPE 2
 #define ROTATION_UNLOCKED 3
@@ -125,6 +130,25 @@ public:
         QAndroidJniObject::callStaticMethod<void>(TAPSELL_CLASS.c_str(), "nativeBannerAdClicked", "(Landroid/content/Context;Ljava/lang/String;)V", QtAndroid::androidContext().object(), QAndroidJniObject::fromString(adId).object<jstring>());
     }
 
+    static void requestNativeVideoAd(QString zoneId, ON_NATIVE_VIDEO_AD_AVAILABLE_CB onAdAvailable,
+                          ON_NATIVE_VIDEO_NO_AD_AVAILABLE_CB onNoAdAvailable, ON_NATIVE_VIDEO_NO_NETWORK_CB onNoNetwork,
+                          ON_NATIVE_VIDEO_ERROR_CB onError) {
+        onNativeVideoAdAvailableCbs[zoneId.toStdString()] = onAdAvailable;
+        onNativeVideoErrorCbs[zoneId.toStdString()] = onError;
+        onNativeVideoNoAdAvailableCbs[zoneId.toStdString()] = onNoAdAvailable;
+        onNativeVideoNoNetworkCbs[zoneId.toStdString()] = onNoNetwork;
+
+        QAndroidJniObject::callStaticMethod<void>(TAPSELL_CLASS.c_str(), "requestNativeVideoAd", "(Landroid/app/Activity;Ljava/lang/String;)V", QtAndroid::androidActivity().object(), QAndroidJniObject::fromString(zoneId).object<jstring>());
+    }
+
+    static void onNativeVideoAdShown(QString adId) {
+        QAndroidJniObject::callStaticMethod<void>(TAPSELL_CLASS.c_str(), "nativeVideoAdShown", "(Landroid/content/Context;Ljava/lang/String;)V", QtAndroid::androidContext().object(), QAndroidJniObject::fromString(adId).object<jstring>());
+    }
+
+    static void onNativeVideoAdClicked(QString adId) {
+        QAndroidJniObject::callStaticMethod<void>(TAPSELL_CLASS.c_str(), "nativeVideoAdClicked", "(Landroid/content/Context;Ljava/lang/String;)V", QtAndroid::androidContext().object(), QAndroidJniObject::fromString(adId).object<jstring>());
+    }
+
 
     static ON_AD_SHOW_FINISHED onAdShowFinishedCb;
     static std::map<std::string, ON_AD_AVAILABLE_CB> onAdAvailableCbs;
@@ -139,6 +163,11 @@ public:
     static std::map<std::string, ON_NATIVE_BANNER_ERROR_CB> onNativeBannerErrorCbs;
     static std::map<std::string, ON_NATIVE_BANNER_NO_AD_AVAILABLE_CB> onNativeBannerNoAdAvailableCbs;
     static std::map<std::string, ON_NATIVE_BANNER_NO_NETWORK_CB> onNativeBannerNoNetworkCbs;
+
+    static std::map<std::string, ON_NATIVE_VIDEO_AD_AVAILABLE_CB> onNativeVideoAdAvailableCbs;
+    static std::map<std::string, ON_NATIVE_VIDEO_ERROR_CB> onNativeVideoErrorCbs;
+    static std::map<std::string, ON_NATIVE_VIDEO_NO_AD_AVAILABLE_CB> onNativeVideoNoAdAvailableCbs;
+    static std::map<std::string, ON_NATIVE_VIDEO_NO_NETWORK_CB> onNativeVideoNoNetworkCbs;
 };
 
 

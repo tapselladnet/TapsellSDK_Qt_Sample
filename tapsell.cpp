@@ -14,6 +14,11 @@ std::map<std::string, ON_NATIVE_BANNER_ERROR_CB> Tapsell::onNativeBannerErrorCbs
 std::map<std::string, ON_NATIVE_BANNER_NO_AD_AVAILABLE_CB> Tapsell::onNativeBannerNoAdAvailableCbs;
 std::map<std::string, ON_NATIVE_BANNER_NO_NETWORK_CB> Tapsell::onNativeBannerNoNetworkCbs;
 
+std::map<std::string, ON_NATIVE_VIDEO_AD_AVAILABLE_CB> Tapsell::onNativeVideoAdAvailableCbs;
+std::map<std::string, ON_NATIVE_VIDEO_ERROR_CB> Tapsell::onNativeVideoErrorCbs;
+std::map<std::string, ON_NATIVE_VIDEO_NO_AD_AVAILABLE_CB> Tapsell::onNativeVideoNoAdAvailableCbs;
+std::map<std::string, ON_NATIVE_VIDEO_NO_NETWORK_CB> Tapsell::onNativeVideoNoNetworkCbs;
+
 extern "C" {
 JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onAdShowFinished(
     JNIEnv *env, jobject thiz, jstring jZoneId, jstring jAdId,
@@ -222,5 +227,78 @@ JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onNativeBannerNoNetwork(
     if (Tapsell::onNativeBannerNoNetworkCbs.find(zoneId) != Tapsell::onNativeBannerNoNetworkCbs.end()) {
         Tapsell::onNativeBannerNoNetworkCbs[zoneId]();
         Tapsell::onNativeBannerNoNetworkCbs.erase(zoneId);
+    }
+}
+
+extern "C" {
+JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onNativeVideoAdAvailable(
+        JNIEnv *env, jobject thiz, jstring jZoneId, jstring jAdId, jstring jTitle, jstring jDescription,
+        jstring jIconUrl, jstring jCtaText, jstring jVideoUrl);
+};
+
+JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onNativeVideoAdAvailable(
+        JNIEnv *env, jobject thiz, jstring jZoneId, jstring jAdId, jstring jTitle, jstring jDescription,
+        jstring jIconUrl, jstring jCtaText, jstring jVideoUrl) {
+    std::string zoneId = env->GetStringUTFChars(jZoneId, NULL);
+    std::string adId = env->GetStringUTFChars(jAdId, NULL);
+    std::string title = env->GetStringUTFChars(jTitle, NULL);
+    std::string description = env->GetStringUTFChars(jDescription, NULL);
+    std::string iconUrl = env->GetStringUTFChars(jIconUrl, NULL);
+    std::string ctaText = env->GetStringUTFChars(jCtaText, NULL);
+    std::string videoUrl = env->GetStringUTFChars(jVideoUrl, NULL);
+    if (Tapsell::onNativeVideoAdAvailableCbs.find(zoneId) !=
+        Tapsell::onNativeVideoAdAvailableCbs.end()) {
+        Tapsell::onNativeVideoAdAvailableCbs[zoneId](QString::fromStdString(adId), QString::fromStdString(title),
+                QString::fromStdString(description), QString::fromStdString(iconUrl),
+                QString::fromStdString(ctaText), QString::fromStdString(videoUrl));
+        Tapsell::onNativeVideoAdAvailableCbs.erase(zoneId);
+    }
+}
+
+extern "C" {
+JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onNativeVideoError(JNIEnv *env,
+                                                                         jobject thiz,
+                                                                         jstring jZoneId,
+                                                                         jstring jError);
+};
+
+JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onNativeVideoError(JNIEnv *env,
+                                                                         jobject thiz,
+                                                                         jstring jZoneId,
+                                                                         jstring jError) {
+    std::string zoneId = env->GetStringUTFChars(jZoneId, NULL);
+    std::string error = env->GetStringUTFChars(jError, NULL);
+    if (Tapsell::onNativeVideoErrorCbs.find(zoneId) != Tapsell::onNativeVideoErrorCbs.end()) {
+        Tapsell::onNativeVideoErrorCbs[zoneId](QString::fromStdString(error));
+        Tapsell::onNativeVideoErrorCbs.erase(zoneId);
+    }
+}
+
+extern "C" {
+JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onNativeVideoNoAdAvailable(
+        JNIEnv *env, jobject thiz, jstring jZoneId);
+};
+
+JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onNativeVideoNoAdAvailable(
+        JNIEnv *env, jobject thiz, jstring jZoneId) {
+    std::string zoneId = env->GetStringUTFChars(jZoneId, NULL);
+    if (Tapsell::onNativeVideoNoAdAvailableCbs.find(zoneId) !=
+        Tapsell::onNativeVideoNoAdAvailableCbs.end()) {
+        Tapsell::onNativeVideoNoAdAvailableCbs[zoneId]();
+        Tapsell::onNativeVideoNoAdAvailableCbs.erase(zoneId);
+    }
+}
+
+extern "C" {
+JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onNativeVideoNoNetwork(
+        JNIEnv *env, jobject thiz, jstring jZoneId);
+};
+
+JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onNativeVideoNoNetwork(
+        JNIEnv *env, jobject thiz, jstring jZoneId) {
+    std::string zoneId = env->GetStringUTFChars(jZoneId, NULL);
+    if (Tapsell::onNativeVideoNoNetworkCbs.find(zoneId) != Tapsell::onNativeVideoNoNetworkCbs.end()) {
+        Tapsell::onNativeVideoNoNetworkCbs[zoneId]();
+        Tapsell::onNativeVideoNoNetworkCbs.erase(zoneId);
     }
 }

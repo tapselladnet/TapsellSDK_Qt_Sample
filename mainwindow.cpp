@@ -21,6 +21,7 @@ MainWindow::~MainWindow()
 QString AD_ID = "";
 QString NATIVE_BANNER_AD_ID = "";
 QString NATIVE_VIDEO_AD_ID = "";
+QString nativeMode = "banner";
 void MainWindow::on_pushButton_clicked()
 {
     Tapsell::requestAd(ZONE_ID, false, [&](QString adId) {
@@ -56,6 +57,7 @@ void MainWindow::on_pushButton_3_clicked()
     Tapsell::requestNativeBannerAd(NATIVE_BANNER_ZONEID,
         [&](QString adId,QString title, QString description, QString iconUrl,
                                    QString ctaText, QString portraitUrl, QString landscapeUrl) {
+        nativeMode = "banner";
         qDebug() << "onNativeBannerAdAvailable";
         NATIVE_BANNER_AD_ID = adId;
         QString nativeResult = "Sponsored: \n" + title + "\n" + description + "\n" + "ad icon url: " + iconUrl +
@@ -74,6 +76,32 @@ void MainWindow::on_pushButton_3_clicked()
 
 void MainWindow::on_pushButton_5_clicked()
 {
-    Tapsell::onNativeBannerAdClicked(NATIVE_BANNER_AD_ID);
+    if (nativeMode == "banner") {
+        Tapsell::onNativeBannerAdClicked(NATIVE_BANNER_AD_ID);
+    } else if (nativeMode == "video") {
+        Tapsell::onNativeVideoAdClicked(NATIVE_VIDEO_AD_ID);
+    }
 }
 
+
+void MainWindow::on_pushButton_4_clicked()
+{
+    Tapsell::requestNativeVideoAd(NATIVE_VIDEO_ZONEID,
+        [&](QString adId,QString title, QString description, QString iconUrl,
+                                   QString ctaText, QString videoUrl) {
+        nativeMode = "video";
+        qDebug() << "onNativeVideoAdAvailable";
+        NATIVE_VIDEO_AD_ID = adId;
+        QString nativeResult = "Sponsored: \n" + title + "\n" + description + "\n" + "ad icon url: " + iconUrl +
+                "\n" + "Video url: \n" + videoUrl;
+        ui->label->setText(nativeResult);
+        ui->pushButton_5->setText(ctaText);
+        Tapsell::onNativeVideoAdShown(adId);
+        }, [](){
+        qDebug() << "onNoNativeVideoAdAvailable";
+        }, [](){
+        qDebug() << "onNoNetwork";
+        }, [](QString error) {
+        qDebug() << "onError: " << error;
+        });
+}

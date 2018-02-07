@@ -25,11 +25,11 @@ public class Tapsell {
     public static native void onNativeBannerNoAdAvailable(String zoneId);
     public static native void onNativeBannerNoNetwork(String zoneId);
 
-//    public static native void onNativeVideoAdAvailable(String s, String s1, String s2, String s3,
-//                                                       String s4, String s5, String s6);
-//    public static native void onNativeVideoError(String zoneId, String error);
-//    public static native void onNativeVideoNoAdAvailable(String zoneId);
-//    public static native void onNativeVideoNoNetwork(String zoneId);
+    public static native void onNativeVideoAdAvailable(String s, String s1, String s2, String s3,
+                                                       String s4, String s5, String s6);
+    public static native void onNativeVideoError(String zoneId, String error);
+    public static native void onNativeVideoNoAdAvailable(String zoneId);
+    public static native void onNativeVideoNoNetwork(String zoneId);
 
     private TapsellQt tapsellQt = null;
 
@@ -129,47 +129,42 @@ public class Tapsell {
                     }
                 });
     }
-//
-//    public static void nativeVideoAdShown(String ad_id) {
-//        TapsellQtModule.nativeVideoAdShown(ad_id, app);
-//    }
-//
-//    public static void nativeVideoAdClicked(String ad_id) {
-//        TapsellQtModule.nativeVideoAdClicked(ad_id, app);
-//    }
-//
-//    public static void requestNativeVideoAd(final String zoneId) {
-//        TapsellQtModule.requestNativeVideoAd(zoneId, app, new TapsellQtNativeCppListener() {
-//            @Override
-//            public void onVideoAdAvailable(String s, String s1, String s2, String s3, String s4, String s5, String s6) {
-//                Tapsell.onNativeVideoAdAvailable(s, s1, s2, s3, s4, s5, s6);
-//            }
-//
-//            @Override
-//            public void onBannerAdAvailable(String s, String s1, String s2, String s3, String s4, String s5, String s6, String s7) {}
-//
-//            @Override
-//            public void onError(String s, String s1) {
-//                Tapsell.onNativeVideoError(s, s1);
-//            }
-//
-//            @Override
-//            public void onNoAdAvailable(String s) {
-//                Tapsell.onNativeVideoNoAdAvailable(s);
-//            }
-//
-//            @Override
-//            public void onNoNetwork(String s) {
-//                Tapsell.onNativeVideoNoNetwork(s);
-//            }
-//        });
-//    }
-//
-//    public static void requestStandardBannerAd(final String zoneId, final int bannerType,
-//                                               final int horizontalGravity, final int verticalGravity) {
-//        TapsellQtModule.requestBannerAd(app, zoneId, bannerType, horizontalGravity, verticalGravity);
-//    }
-//
+
+    public static void nativeVideoAdShown(Context context, String ad_id) {
+        TapsellQtModule.onNativeVideoAdShown(context, ad_id);
+    }
+
+    public static void nativeVideoAdClicked(Context context, String ad_id) {
+        TapsellQtModule.onNativeVideoAdClicked(context, ad_id);
+    }
+
+    public static void requestNativeVideoAd(Activity activity, final String zoneId) {
+        TapsellQtModule.requestNativeVideoAd(activity, zoneId, new TapsellQtNativeListener() {
+            @Override
+            public void onBannerAdAvailable(String zoneId, String adId, String title, String description, String iconUrl, String ctaText, String portraitUrl, String landscapeUrl) {}
+
+            @Override
+            public void onVideoAdAvailable(String zoneId, String adId, String title, String description, String iconUrl, String ctaText, String videoUrl) {
+                Tapsell.onNativeVideoAdAvailable(zoneId, adId, title, description, iconUrl, ctaText, videoUrl);
+            }
+
+            @Override
+            public void onError(String zoneId, String error) {
+                Tapsell.onNativeVideoError(zoneId, error);
+            }
+
+            @Override
+            public void onNoAdAvailable(String zoneId) {
+                Tapsell.onNativeVideoNoAdAvailable(zoneId);
+            }
+
+            @Override
+            public void onNoNetwork(String zoneId) {
+                Tapsell.onNativeVideoNoNetwork(zoneId);
+            }
+        });
+    }
+
     public static void setDebugMode(Context context, boolean debug) {
         TapsellQtModule.setDebugMode(context, debug);
     }
