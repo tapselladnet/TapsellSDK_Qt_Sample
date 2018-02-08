@@ -42,6 +42,17 @@ const std::string TAPSELL_CLASS = "ir/tapsell/sdk/Tapsell";
 #define PERMISSION_HANDLER_AUTO 1
 #define PERMISSION_HANDLER_AUTO_INSIST 2
 
+#define BANNER_320x50 1
+#define BANNER_320x100 2
+#define BANNER_250x250 3
+#define BANNER_300x250 4
+
+#define TOP 1
+#define BOTTOM 2
+#define LEFT 3
+#define RIGHT 4
+#define CENTER 5
+
 class Tapsell {
 public:
     static void initialize(QString appKey) {
@@ -147,6 +158,13 @@ public:
 
     static void onNativeVideoAdClicked(QString adId) {
         QAndroidJniObject::callStaticMethod<void>(TAPSELL_CLASS.c_str(), "nativeVideoAdClicked", "(Landroid/content/Context;Ljava/lang/String;)V", QtAndroid::androidContext().object(), QAndroidJniObject::fromString(adId).object<jstring>());
+    }
+
+    static void requestStandardBannerAd(QString zoneId, int bannerType,
+                                        int horizontalGravity, int verticalGravity) {
+        QAndroidJniObject::callStaticMethod<void>(TAPSELL_CLASS.c_str(), "requestBannerAd", "(Landroid/app/Activity;Ljava/lang/String;III)V",
+                                                  QtAndroid::androidActivity().object(), QAndroidJniObject::fromString(zoneId).object<jstring>(),
+                                                  bannerType, horizontalGravity, verticalGravity);
     }
 
 

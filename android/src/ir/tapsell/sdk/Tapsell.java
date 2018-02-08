@@ -31,6 +31,12 @@ public class Tapsell {
     public static native void onNativeVideoNoAdAvailable(String zoneId);
     public static native void onNativeVideoNoNetwork(String zoneId);
 
+    private static final int TOP = 1;
+    private static final int BOTTOM = 2;
+    private static final int LEFT = 3;
+    private static final int RIGHT = 4;
+    private static final int CENTER = 5;
+
     private TapsellQt tapsellQt = null;
 
     private void initializeTapsell() {
@@ -165,6 +171,10 @@ public class Tapsell {
         });
     }
 
+    public static void requestBannerAd(Activity activity, String zoneId, int bannerType, int horizontalGravity, int verticalGravity) {
+        TapsellQtModule.requestBannerAd(activity, zoneId, bannerType, horizontalGravity, verticalGravity);
+    }
+
     public static void setDebugMode(Context context, boolean debug) {
         TapsellQtModule.setDebugMode(context, debug);
     }
@@ -173,15 +183,11 @@ public class Tapsell {
         return TapsellQtModule.isDebugMode(context);
     }
 
-    public static void setAppUserId(Context context, String appUserId) {
-        TapsellQtModule.setAppUserId(context, appUserId);
-    }
-
     public static String getAppUserId(Context context) {
         return TapsellQtModule.getAppUserId(context);
     }
 
-    public static void setPermissionHandlerConfig(Context context, int permissionHandlerConfig) {
+    public static void PermissionHandlerConfig(Context context, int permissionHandlerConfig) {
         TapsellQtModule.setPermissionHandlerConfig(context, permissionHandlerConfig);
     }
 

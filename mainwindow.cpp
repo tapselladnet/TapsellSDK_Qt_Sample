@@ -105,3 +105,8 @@ void MainWindow::on_pushButton_4_clicked()
         qDebug() << "onError: " << error;
         });
 }
+
+void MainWindow::on_pushButton_6_clicked()
+{
+    Tapsell::requestStandardBannerAd(STANDARD_BANNER_ZONEID, BANNER_320x50, BOTTOM, CENTER);
+}
