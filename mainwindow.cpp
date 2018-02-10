@@ -18,10 +18,12 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
 QString AD_ID = "";
 QString NATIVE_BANNER_AD_ID = "";
 QString NATIVE_VIDEO_AD_ID = "";
 QString nativeMode = "banner";
+
 void MainWindow::on_pushButton_clicked()
 {
     Tapsell::requestAd(ZONE_ID, false, [&](QString adId) {

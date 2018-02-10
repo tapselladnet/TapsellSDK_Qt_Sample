@@ -1,4 +1,4 @@
-#include "tapsell.h"
+#include "tapsellAndroid.h"
 
 ON_AD_SHOW_FINISHED Tapsell::onAdShowFinishedCb;
 std::map<std::string, ON_AD_AVAILABLE_CB> Tapsell::onAdAvailableCbs;
@@ -23,7 +23,7 @@ extern "C" {
 JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onAdShowFinished(
     JNIEnv *env, jobject thiz, jstring jZoneId, jstring jAdId,
     jboolean completed, jboolean rewarded);
-};
+}
 
 JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onAdShowFinished(
     JNIEnv *env, jobject thiz, jstring jZoneId, jstring jAdId,
@@ -39,7 +39,7 @@ JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onAdShowFinished(
 extern "C" {
 JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onAdAvailable(
     JNIEnv *env, jobject thiz, jstring jZoneId, jstring jAdId);
-};
+}
 
 JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onAdAvailable(
     JNIEnv *env, jobject thiz, jstring jZoneId, jstring jAdId) {
@@ -57,7 +57,7 @@ JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onError(JNIEnv *env,
                                                              jobject thiz,
                                                              jstring jZoneId,
                                                              jstring jError);
-};
+}
 
 JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onError(JNIEnv *env,
                                                              jobject thiz,
@@ -74,7 +74,7 @@ JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onError(JNIEnv *env,
 extern "C" {
 JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onNoAdAvailable(
     JNIEnv *env, jobject thiz, jstring jZoneId);
-};
+}
 
 JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onNoAdAvailable(
     JNIEnv *env, jobject thiz, jstring jZoneId) {
@@ -89,7 +89,7 @@ JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onNoAdAvailable(
 extern "C" {
 JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onNoNetwork(
     JNIEnv *env, jobject thiz, jstring jZoneId);
-};
+}
 
 JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onNoNetwork(
     JNIEnv *env, jobject thiz, jstring jZoneId) {
@@ -105,7 +105,7 @@ JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onExpiring(JNIEnv *env,
                                                                 jobject thiz,
                                                                 jstring jZoneId,
                                                                 jstring jAdId);
-};
+}
 
 JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onExpiring(JNIEnv *env,
                                                                 jobject thiz,
@@ -124,7 +124,7 @@ JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onClosed(JNIEnv *env,
                                                               jobject thiz,
                                                               jstring jZoneId,
                                                               jstring jAdId);
-};
+}
 
 JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onClosed(JNIEnv *env,
                                                               jobject thiz,
@@ -143,7 +143,7 @@ JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onOpened(JNIEnv *env,
                                                               jobject thiz,
                                                               jstring jZoneId,
                                                               jstring jAdId);
-};
+}
 
 JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onOpened(JNIEnv *env,
                                                               jobject thiz,
@@ -161,7 +161,7 @@ extern "C" {
 JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onNativeBannerAdAvailable(
         JNIEnv *env, jobject thiz, jstring jZoneId, jstring jAdId, jstring jTitle, jstring jDescription,
                               jstring jIconUrl, jstring jCtaText, jstring jPortraitUrl, jstring jLandscapeUrl);
-};
+}
 
 JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onNativeBannerAdAvailable(
         JNIEnv *env, jobject thiz, jstring jZoneId, jstring jAdId, jstring jTitle, jstring jDescription,
@@ -187,7 +187,7 @@ JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onNativeBannerError(JNIEnv *e
                                                              jobject thiz,
                                                              jstring jZoneId,
                                                              jstring jError);
-};
+}
 
 JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onNativeBannerError(JNIEnv *env,
                                                              jobject thiz,
@@ -204,7 +204,7 @@ JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onNativeBannerError(JNIEnv *e
 extern "C" {
 JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onNativeBannerNoAdAvailable(
         JNIEnv *env, jobject thiz, jstring jZoneId);
-};
+}
 
 JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onNativeBannerNoAdAvailable(
         JNIEnv *env, jobject thiz, jstring jZoneId) {
@@ -219,7 +219,7 @@ JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onNativeBannerNoAdAvailable(
 extern "C" {
 JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onNativeBannerNoNetwork(
         JNIEnv *env, jobject thiz, jstring jZoneId);
-};
+}
 
 JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onNativeBannerNoNetwork(
         JNIEnv *env, jobject thiz, jstring jZoneId) {
@@ -234,7 +234,7 @@ extern "C" {
 JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onNativeVideoAdAvailable(
         JNIEnv *env, jobject thiz, jstring jZoneId, jstring jAdId, jstring jTitle, jstring jDescription,
         jstring jIconUrl, jstring jCtaText, jstring jVideoUrl);
-};
+}
 
 JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onNativeVideoAdAvailable(
         JNIEnv *env, jobject thiz, jstring jZoneId, jstring jAdId, jstring jTitle, jstring jDescription,
@@ -260,7 +260,7 @@ JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onNativeVideoError(JNIEnv *en
                                                                          jobject thiz,
                                                                          jstring jZoneId,
                                                                          jstring jError);
-};
+}
 
 JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onNativeVideoError(JNIEnv *env,
                                                                          jobject thiz,
@@ -277,7 +277,7 @@ JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onNativeVideoError(JNIEnv *en
 extern "C" {
 JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onNativeVideoNoAdAvailable(
         JNIEnv *env, jobject thiz, jstring jZoneId);
-};
+}
 
 JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onNativeVideoNoAdAvailable(
         JNIEnv *env, jobject thiz, jstring jZoneId) {
@@ -292,7 +292,7 @@ JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onNativeVideoNoAdAvailable(
 extern "C" {
 JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onNativeVideoNoNetwork(
         JNIEnv *env, jobject thiz, jstring jZoneId);
-};
+}
 
 JNIEXPORT void JNICALL Java_ir_tapsell_sdk_Tapsell_onNativeVideoNoNetwork(
         JNIEnv *env, jobject thiz, jstring jZoneId) {
