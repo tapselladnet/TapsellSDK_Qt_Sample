@@ -9,6 +9,4 @@
 #include "tapsellios.h"
 #endif
 
-#include "tapsellIos.h"
-
 #endif // TAPSELL_H
