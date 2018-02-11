@@ -9,6 +9,7 @@
 #include <string.h>
 #include <qpa/qplatformnativeinterface.h>
 
+#include "TSTapsell.h"
 
 #define ON_AD_SHOW_FINISHED std::function<void(QString, QString, bool, bool)>
 #define ON_AD_AVAILABLE_CB std::function<void(QString)>
@@ -54,17 +55,23 @@
 class Tapsell{
 public:
     static void initialize(QString appKey) {
-
+        QByteArray appKeyByteArray = appKey.toLatin1();
+        char *finalAppKey = appKeyByteArray.data();
+        TSTapsell::initialize(finalAppKey);
     }
 
     static void setRewardListener(ON_AD_SHOW_FINISHED onAdShowFinished) {
-
+        onAdShowFinishedCb = onAdShowFinished;
     }
 
     static void requestAd(QString zoneId, bool isCached, ON_AD_AVAILABLE_CB onAdAvailable,
                           ON_NO_AD_AVAILABLE_CB onNoAdAvailable, ON_NO_NETWORK_CB onNoNetwork,
                           ON_ERROR_CB onError, ON_EXPIRING_CB onExpiring) {
-
+        onAdAvailableCbs[zoneId.toStdString()] = onAdAvailable;
+        onErrorCbs[zoneId.toStdString()] = onError;
+        onNoAdAvailableCbs[zoneId.toStdString()] = onNoAdAvailable;
+        onNoNetworkCbs[zoneId.toStdString()] = onNoNetwork;
+        onExpiringCbs[zoneId.toStdString()] = onExpiring;
     }
 
     static void showAd(QString zoneId, QString adId, bool back_disabled,

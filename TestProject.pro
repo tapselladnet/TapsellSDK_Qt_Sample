@@ -27,12 +27,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp \
-    tepsell.cpp
+    mainwindow.cpp
 
 HEADERS += \
     mainwindow.h \
-    tapsell.h
+    tapsell.h \
 
 FORMS += \
     mainwindow.ui
@@ -44,10 +43,16 @@ android: HEADERS += \
     tapsellAndroid.h
 
 ios: SOURCES += \
-    tapsellIos.cpp
 
 ios: HEADERS += \
     tapsellIos.h
+
+ios: OBJECTIVE_SOURCES += \
+    tapsellIos.cpp \
+    TSTapsell.mm
+
+ios: OBJECTIVE_HEADERS += \
+    TSTapsell.h
 
 android: DISTFILES += \
     android/AndroidManifest.xml \
@@ -60,3 +65,5 @@ android: DISTFILES += \
     android/src/ir/tapsell/sdk/Tapsell.java
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
+
+ios: LIBS += -framework Foundation
