@@ -13,12 +13,17 @@
 
 #define ON_AD_SHOW_FINISHED std::function<void(QString, QString, bool, bool)>
 #define ON_AD_AVAILABLE_CB std::function<void(QString)>
+#define ON_AD_AVAILABLE_CB_WRAPPER std::function<void(char *)>
 #define ON_ERROR_CB std::function<void(QString)>
+#define ON_ERROR_CB_WRAPPER std::function<void(char *)>
 #define ON_NO_AD_AVAILABLE_CB std::function<void()>
 #define ON_NO_NETWORK_CB std::function<void()>
 #define ON_EXPIRING_CB std::function<void(QString)>
+#define ON_EXPIRING_CB_WRAPPER std::function<void(char *)>
 #define ON_OPENED_CB std::function<void(QString)>
+#define ON_OPENED_CB_WRAPPER std::function<void(char *)>
 #define ON_CLOSED_CB std::function<void(QString)>
+#define ON_CLOSED_CB_WRAPPER std::function<void(char *)>
 
 #define ON_NATIVE_BANNER_AD_AVAILABLE_CB std::function<void(QString, QString, QString, QString, QString, QString, QString)>
 #define ON_NATIVE_BANNER_ERROR_CB std::function<void(QString)>
@@ -72,17 +77,67 @@ public:
         onNoAdAvailableCbs[zoneId.toStdString()] = onNoAdAvailable;
         onNoNetworkCbs[zoneId.toStdString()] = onNoNetwork;
         onExpiringCbs[zoneId.toStdString()] = onExpiring;
+
+        ON_AD_AVAILABLE_CB_WRAPPER onAdAvailableWrapper = [onAdAvailable](char *arg_0){
+            onAdAvailable(QString(arg_0));
+        };
+
+        ON_ERROR_CB_WRAPPER onErrorWrapper = [onError](char *arg_0){
+            onError(QString(arg_0));
+        };
+
+        ON_ERROR_CB_WRAPPER onExpiringWrapper = [onExpiring](char *arg_0){
+          onExpiring(QString(arg_0));
+        };
+
+        QByteArray zoneIdInByteArrayFormat = zoneId.toLatin1();
+        char *zoneIdWithProperFormat = zoneIdInByteArrayFormat.data();
+
+        TSTapsell::requestAd(zoneIdWithProperFormat, isCached, onAdAvailableWrapper,
+                             onNoAdAvailable, onNoNetwork,
+                             onErrorWrapper, onExpiringWrapper);
     }
 
     static void showAd(QString zoneId, QString adId, bool back_disabled,
                        bool immersive_mode, int rotation_mode, bool showExitDialog){
-
+        ON_OPENED_CB_WRAPPER onOpenedWrapper = [](char *arg_0){};
+        
+        ON_CLOSED_CB_WRAPPER onClosedWrapper = [](char *arg_0){};
+        
+        QByteArray zoneIdInByteArrayFormat = zoneId.toLatin1();
+        char *zoneIdWithProperFormat = zoneIdInByteArrayFormat.data();
+        
+        QByteArray adIdInByteArrayFormat = adId.toLatin1();
+        char *adIdWithProperFormat = adIdInByteArrayFormat.data();
+        
+//        TSTapsell::showAd(zoneIdWithProperFormat, adIdWithProperFormat, back_disabled,
+//                          immersive_mode, rotation_mode, showExitDialog,
+//                          onOpenedWrapper, onClosedWrapper);
     }
 
     static void showAd(QString zoneId, QString adId, bool back_disabled,
                        bool immersive_mode, int rotation_mode, bool showExitDialog,
                        ON_OPENED_CB onOpened, ON_CLOSED_CB onClosed){
-
+        onOpenedCbs[zoneId.toStdString()] = onOpened;
+        onClosedCbs[zoneId.toStdString()] = onClosed;
+        
+        ON_OPENED_CB_WRAPPER onOpenedWrapper = [onOpened](char *arg_0){
+            onOpened(QString(arg_0));
+        };
+        
+        ON_CLOSED_CB_WRAPPER onClosedWrapper = [onClosed](char *arg_0){
+            onClosed(QString(arg_0));
+        };
+        
+        QByteArray zoneIdInByteArrayFormat = zoneId.toLatin1();
+        char *zoneIdWithProperFormat = zoneIdInByteArrayFormat.data();
+        
+        QByteArray adIdInByteArrayFormat = adId.toLatin1();
+        char *adIdWithProperFormat = adIdInByteArrayFormat.data();
+        
+        TSTapsell::showAd(zoneIdWithProperFormat, adIdWithProperFormat, back_disabled,
+                          immersive_mode, rotation_mode, showExitDialog,
+                          onOpenedWrapper, onClosedWrapper);
     }
 
     static void setDebugMode(bool debug) {

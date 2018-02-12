@@ -27,9 +27,14 @@ QString nativeMode = "banner";
 void MainWindow::on_pushButton_clicked()
 {
     Tapsell::requestAd(ZONE_ID, false, [&](QString adId) {
-            qDebug() << "onAdAvailable";
-            ui->pushButton_2->setEnabled(true);
-            AD_ID = adId;
+        qDebug() << "onAdAvailable" << endl;
+            Tapsell::showAd(ZONE_ID, adId, false, false, ROTATION_UNLOCKED, true,
+                        [](QString adId) {
+                            qDebug() << "Ad onOpened: " << adId;
+                        },
+                        [](QString adId) {
+                            qDebug() << "Ad onClosed: " << adId;
+                        });
         }, []() {
             qDebug() << "onNoAdAvailable";
         }, []() {
