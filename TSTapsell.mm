@@ -64,3 +64,16 @@ void TSTapsell::showAd(char *zoneId, char *adId, bool back_disabled,
 void TSTapsell::setDebugMode(bool isDebugMode){
     [Tapsell setDebugMode:isDebugMode];
 }
+
+bool TSTapsell::isDebugMode(){
+    return [Tapsell isDebugMode];
+}
+
+void TSTapsell::setAppUserId(char *appUserId){
+    NSString *NSStringAppUserId = [NSString stringWithUTF8String:appUserId];
+    [Tapsell setAppUserId:NSStringAppUserId];
+}
+
+char *TSTapsell::getAppUserId(){
+    return (char*)[[Tapsell getAppUserId] UTF8String];
+}

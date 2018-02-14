@@ -95,15 +95,17 @@ public:
     }
 
     static bool isDebugMode() {
-        return QAndroidJniObject::callStaticMethod<bool>(TAPSELL_CLASS.c_str(), "isDebugMode", "(Landroid/content/Context;)Z", QtAndroid::androidContext().object());;
+        return QAndroidJniObject::callStaticMethod<jboolean>(TAPSELL_CLASS.c_str(), "isDebugMode", "(Landroid/content/Context;)Z", QtAndroid::androidContext().object());;
     }
     static void setAppUserId(QString appUserId) {
         QAndroidJniObject str = QAndroidJniObject::fromString(appUserId);
         QAndroidJniObject::callStaticMethod<void>(TAPSELL_CLASS.c_str(), "setAppUserId", "(Landroid/content/Context;Ljava/lang/String;)V", QtAndroid::androidContext().object(), str.object<jstring>());
     }
     static QString getAppUserId() {
-        QAndroidJniObject userId = QAndroidJniObject::callStaticMethod<QAndroidJniObject>(TAPSELL_CLASS.c_str(), "getAppUserId", "(Landroid/content/Context;)Ljava/lang/String;", QtAndroid::androidContext().object());;
+        QAndroidJniObject userId = QAndroidJniObject::callStaticObjectMethod(TAPSELL_CLASS.c_str(), "getAppUserId", "(Landroid/content/Context;)Ljava/lang/String;", QtAndroid::androidContext().object());;
+
         return userId.toString();
+
     }
     static QString getVersion() {
         QAndroidJniObject version = QAndroidJniObject::callStaticMethod<QAndroidJniObject>(TAPSELL_CLASS.c_str(), "getVersion", "()Ljava/lang/String;");

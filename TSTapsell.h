@@ -24,6 +24,12 @@ public:
                        ON_OPENED_CB onOpened, ON_CLOSED_CB onClosed);
     
     static void setDebugMode(bool isDebugMode);
+    
+    static bool isDebugMode();
+    
+    static void setAppUserId(char *sppUserId);
+    
+    static char *getAppUserId();
 };
 
 #endif // TSTAPSELL_H

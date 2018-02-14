@@ -145,15 +145,18 @@ public:
     }
 
     static bool isDebugMode() {
-        return true;
+        return TSTapsell::isDebugMode();
     }
 
     static void setAppUserId(QString appUserId) {
-
+        QByteArray appUserIdInByteArrayFormat = appUserId.toLatin1();
+        char *appUserIdWithProperFormat = appUserIdInByteArrayFormat.data();
+        
+        TSTapsell::setAppUserId(appUserIdWithProperFormat);
     }
 
     static QString getAppUserId() {
-        return "salam";
+        return QString(TSTapsell::getAppUserId());
     }
 
     static QString getVersion() {

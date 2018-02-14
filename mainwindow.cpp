@@ -12,6 +12,10 @@ MainWindow::MainWindow(QWidget *parent) :
     Tapsell::setRewardListener([](QString zoneId, QString adId, bool completed, bool rewarded) {
         qDebug() << "Reward! " << completed << ", " << rewarded;
     });
+    qDebug() << "isDebugMode: " << Tapsell::isDebugMode() << endl;
+    
+    Tapsell::setAppUserId(QString("asghar"));
+    qDebug() << "appUserId: " << Tapsell::getAppUserId() << endl;
     
     connect(ui->pushButton, SIGNAL (clicked()), this, SLOT (requestAd()));
     connect(this, SIGNAL (enableShowButtonSignal()), this, SLOT (enableShowButtonSlot()));
