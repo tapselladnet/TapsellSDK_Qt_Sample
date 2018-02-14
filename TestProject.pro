@@ -67,3 +67,5 @@ android: DISTFILES += \
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 
 ios: LIBS += -framework Foundation
+
+QMAKE_INFO_PLIST = info.plist

@@ -110,9 +110,9 @@ public:
         QByteArray adIdInByteArrayFormat = adId.toLatin1();
         char *adIdWithProperFormat = adIdInByteArrayFormat.data();
         
-//        TSTapsell::showAd(zoneIdWithProperFormat, adIdWithProperFormat, back_disabled,
-//                          immersive_mode, rotation_mode, showExitDialog,
-//                          onOpenedWrapper, onClosedWrapper);
+        TSTapsell::showAd(zoneIdWithProperFormat, adIdWithProperFormat, back_disabled,
+                          immersive_mode, rotation_mode, showExitDialog,
+                          onOpenedWrapper, onClosedWrapper);
     }
 
     static void showAd(QString zoneId, QString adId, bool back_disabled,
@@ -135,9 +135,9 @@ public:
         QByteArray adIdInByteArrayFormat = adId.toLatin1();
         char *adIdWithProperFormat = adIdInByteArrayFormat.data();
         
-//        TSTapsell::showAd(zoneIdWithProperFormat, adIdWithProperFormat, back_disabled,
-//                          immersive_mode, rotation_mode, showExitDialog,
-//                          onOpenedWrapper, onClosedWrapper);
+        TSTapsell::showAd(zoneIdWithProperFormat, adIdWithProperFormat, back_disabled,
+                          immersive_mode, rotation_mode, showExitDialog,
+                          onOpenedWrapper, onClosedWrapper);
     }
 
     static void setDebugMode(bool debug) {
