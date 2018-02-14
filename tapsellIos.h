@@ -135,13 +135,13 @@ public:
         QByteArray adIdInByteArrayFormat = adId.toLatin1();
         char *adIdWithProperFormat = adIdInByteArrayFormat.data();
         
-        TSTapsell::showAd(zoneIdWithProperFormat, adIdWithProperFormat, back_disabled,
-                          immersive_mode, rotation_mode, showExitDialog,
-                          onOpenedWrapper, onClosedWrapper);
+//        TSTapsell::showAd(zoneIdWithProperFormat, adIdWithProperFormat, back_disabled,
+//                          immersive_mode, rotation_mode, showExitDialog,
+//                          onOpenedWrapper, onClosedWrapper);
     }
 
     static void setDebugMode(bool debug) {
-
+        TSTapsell::setDebugMode(debug);
     }
 
     static bool isDebugMode() {

@@ -22,6 +22,8 @@ public:
     static void showAd(char *zoneId, char *adId, bool back_disabled,
                        bool immersive_mode, int rotation_mode, bool showExitDialog,
                        ON_OPENED_CB onOpened, ON_CLOSED_CB onClosed);
+    
+    static void setDebugMode(bool isDebugMode);
 };
 
 #endif // TSTAPSELL_H

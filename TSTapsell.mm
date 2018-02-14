@@ -52,10 +52,15 @@ void TSTapsell::showAd(char *zoneId, char *adId, bool back_disabled,
     
     TapsellAd* targetAd = tapsellAds[[NSString stringWithCString:adId
                                                   encoding:[NSString defaultCStringEncoding]]];
+    
     [targetAd showWithOptions:showOptions
       andOpenedCallback:^(TapsellAd * _Nullable ad){
           onOpened((char*)[[ad getId] UTF8String]);
       } andClosedCallback:^(TapsellAd * _Nullable ad){
           onClosed((char*)[[ad getId] UTF8String]);
       }];
+}
+
+void TSTapsell::setDebugMode(bool isDebugMode){
+    [Tapsell setDebugMode:isDebugMode];
 }

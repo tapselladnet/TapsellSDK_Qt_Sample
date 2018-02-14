@@ -12,6 +12,10 @@ MainWindow::MainWindow(QWidget *parent) :
     Tapsell::setRewardListener([](QString zoneId, QString adId, bool completed, bool rewarded) {
         qDebug() << "Reward! " << completed << ", " << rewarded;
     });
+    
+    connect(ui->pushButton, SIGNAL (clicked()), this, SLOT (requestAd()));
+    connect(this, SIGNAL (enableShowButtonSignal()), this, SLOT (enableShowButtonSlot()));
+
 }
 
 MainWindow::~MainWindow()
@@ -26,24 +30,19 @@ QString nativeMode = "banner";
 
 void MainWindow::on_pushButton_clicked()
 {
-    Tapsell::requestAd(ZONE_ID, false, [&](QString adId) {
-        qDebug() << "onAdAvailable" << endl;
-            Tapsell::showAd(ZONE_ID, adId, false, false, ROTATION_UNLOCKED, true,
-                        [](QString adId) {
-                            qDebug() << "Ad onOpened: " << adId;
-                        },
-                        [](QString adId) {
-                            qDebug() << "Ad onClosed: " << adId;
-                        });
-        }, []() {
-            qDebug() << "onNoAdAvailable";
-        }, []() {
-            qDebug() << "onNoNetwork";
-        }, [](QString error) {
-            qDebug() << "onError: " << error;
-        }, [](QString adId) {
-            qDebug() << "onExpiring " << adId;
-        });
+//    Tapsell::requestAd(ZONE_ID, false, [&](QString adId) {
+//            qDebug() << "onAdAvailable" << endl;
+////            ui->pushButton_2->setEnabled(true);
+////            AD_ID = adId;
+//        }, []() {
+//            qDebug() << "onNoAdAvailable";
+//        }, []() {
+//            qDebug() << "onNoNetwork";
+//        }, [](QString error) {
+//            qDebug() << "onError: " << error;
+//        }, [](QString adId) {
+//            qDebug() << "onExpiring " << adId;
+//        });
 }
 
 void MainWindow::on_pushButton_2_clicked()
@@ -116,4 +115,28 @@ void MainWindow::on_pushButton_4_clicked()
 void MainWindow::on_pushButton_6_clicked()
 {
     Tapsell::requestStandardBannerAd(STANDARD_BANNER_ZONEID, BANNER_320x50, BOTTOM, CENTER);
+}
+
+void MainWindow::requestAd(){
+    Tapsell::requestAd(ZONE_ID, false, [&](QString adId) {
+        qDebug() << "onAdAvailable" << endl;
+        AD_ID = adId;
+        emit enableShowButtonSignal();
+    }, []() {
+        qDebug() << "onNoAdAvailable";
+    }, []() {
+        qDebug() << "onNoNetwork";
+    }, [](QString error) {
+        qDebug() << "onError: " << error;
+    }, [](QString adId) {
+        qDebug() << "onExpiring " << adId;
+    });
+}
+
+void MainWindow::enableShowButton(){
+    ui->pushButton_2->setEnabled(true);
+}
+
+void MainWindow::enableShowButtonSlot(){
+     ui->pushButton_2->setEnabled(true);
 }
