@@ -3,6 +3,7 @@
 
 #include<functional>
 
+#define ON_AD_SHOW_FINISHED std::function<void(char *, char *, bool, bool)>
 #define ON_AD_AVAILABLE_CB std::function<void(char *)>
 #define ON_NO_AD_AVAILABLE_CB std::function<void()>
 #define ON_NO_NETWORK_CB std::function<void()>
@@ -30,6 +31,8 @@ public:
     static void setAppUserId(char *sppUserId);
     
     static char *getAppUserId();
+
+    static void setRewardListener(ON_AD_SHOW_FINISHED onAdShowFinished);
 };
 
 #endif // TSTAPSELL_H

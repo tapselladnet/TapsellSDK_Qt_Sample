@@ -12,6 +12,7 @@
 #include "TSTapsell.h"
 
 #define ON_AD_SHOW_FINISHED std::function<void(QString, QString, bool, bool)>
+#define ON_AD_SHOW_FINISHED_WRAPPER std::function<void(char *, char *, bool, bool)>
 #define ON_AD_AVAILABLE_CB std::function<void(QString)>
 #define ON_AD_AVAILABLE_CB_WRAPPER std::function<void(char *)>
 #define ON_ERROR_CB std::function<void(QString)>
@@ -67,6 +68,12 @@ public:
 
     static void setRewardListener(ON_AD_SHOW_FINISHED onAdShowFinished) {
         onAdShowFinishedCb = onAdShowFinished;
+
+        ON_AD_SHOW_FINISHED_WRAPPER onAdShowFinishedWrapper = [onAdShowFinished](char *arg_0, char *arg_1, bool arg_2, bool arg_3){
+          onAdShowFinished(QString(arg_0), QString(arg_1), arg_2, arg_3);
+        };
+
+        TSTapsell::setRewardListener(onAdShowFinishedWrapper);
     }
 
     static void requestAd(QString zoneId, bool isCached, ON_AD_AVAILABLE_CB onAdAvailable,

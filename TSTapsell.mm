@@ -77,3 +77,12 @@ void TSTapsell::setAppUserId(char *appUserId){
 char *TSTapsell::getAppUserId(){
     return (char*)[[Tapsell getAppUserId] UTF8String];
 }
+
+void TSTapsell::setRewardListener(ON_AD_SHOW_FINISHED onAdShowFinished){
+    [Tapsell setAdShowFinishedCallback:^(TapsellAd *ad, BOOL completed) {
+        onAdShowFinished((char*)[[ad getZoneId] UTF8String],
+                         (char*)[[ad getId] UTF8String],
+                         completed,
+                         [ad isRewardedAd]);
+    }];
+}
