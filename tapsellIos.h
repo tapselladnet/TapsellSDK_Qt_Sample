@@ -27,12 +27,16 @@
 #define ON_CLOSED_CB_WRAPPER std::function<void(char *)>
 
 #define ON_NATIVE_BANNER_AD_AVAILABLE_CB std::function<void(QString, QString, QString, QString, QString, QString, QString)>
+#define ON_NATIVE_BANNER_AD_AVAILABLE_CB_WRAPPER std::function<void(char *, char *, char *, char *, char *, char *, char *)>
 #define ON_NATIVE_BANNER_ERROR_CB std::function<void(QString)>
+#define ON_NATIVE_BANNER_ERROR_CB_WRAPPER std::function<void(char *)>
 #define ON_NATIVE_BANNER_NO_AD_AVAILABLE_CB std::function<void()>
 #define ON_NATIVE_BANNER_NO_NETWORK_CB std::function<void()>
 
 #define ON_NATIVE_VIDEO_AD_AVAILABLE_CB std::function<void(QString, QString, QString, QString, QString, QString)>
+#define ON_NATIVE_VIDEO_AD_AVAILABLE_CB_WRAPPER std::function<void(char *, char *, char *, char *, char *, char *)>
 #define ON_NATIVE_VIDEO_ERROR_CB std::function<void(QString)>
+#define ON_NATIVE_VIDEO_ERROR_CB_WRAPPER std::function<void(char *)>
 #define ON_NATIVE_VIDEO_NO_AD_AVAILABLE_CB std::function<void()>
 #define ON_NATIVE_VIDEO_NO_NETWORK_CB std::function<void()>
 
@@ -173,29 +177,71 @@ public:
     static void requestNativeBannerAd(QString zoneId, ON_NATIVE_BANNER_AD_AVAILABLE_CB onAdAvailable,
                           ON_NATIVE_BANNER_NO_AD_AVAILABLE_CB onNoAdAvailable, ON_NATIVE_BANNER_NO_NETWORK_CB onNoNetwork,
                           ON_NATIVE_BANNER_ERROR_CB onError) {
-
+        QByteArray zoneIdInByteArrayFormat = zoneId.toLatin1();
+        char *zoneIdWithProperFormat = zoneIdInByteArrayFormat.data();
+        
+        ON_NATIVE_BANNER_AD_AVAILABLE_CB_WRAPPER onAdAvailableWrapper = [onAdAvailable](char *arg_0, char *arg_1,
+                                                                                        char *arg_2, char *arg_3,
+                                                                                        char *arg_4, char *arg_5, char *arg_6){
+            onAdAvailable(QString(arg_0), QString(arg_1), QString(arg_2),
+                          QString(arg_3), QString(arg_4), QString(arg_5), QString(arg_6));
+        };
+        
+        ON_NATIVE_BANNER_ERROR_CB_WRAPPER onErrorWrapper = [onError](char *arg_0){
+            onError(QString(arg_0));
+        };
+        
+        TSTapsell::requestNativeBannerAd(zoneIdWithProperFormat, onAdAvailableWrapper,
+                                         onNoAdAvailable, onNoNetwork, onErrorWrapper);
     }
 
     static void onNativeBannerAdShown(QString adId) {
-
+        QByteArray adIdInByteArrayFormat = adId.toLatin1();
+        char *adIdWithProperFormat = adIdInByteArrayFormat.data();
+        
+        TSTapsell::onNativeBannerAdShown(adIdWithProperFormat);
     }
 
     static void onNativeBannerAdClicked(QString adId) {
-
+        QByteArray adIdInByteArrayFormat = adId.toLatin1();
+        char *adIdWithProperFormat = adIdInByteArrayFormat.data();
+        
+        TSTapsell::onNativeBannerAdClicked(adIdWithProperFormat);
     }
 
     static void requestNativeVideoAd(QString zoneId, ON_NATIVE_VIDEO_AD_AVAILABLE_CB onAdAvailable,
                           ON_NATIVE_VIDEO_NO_AD_AVAILABLE_CB onNoAdAvailable, ON_NATIVE_VIDEO_NO_NETWORK_CB onNoNetwork,
                           ON_NATIVE_VIDEO_ERROR_CB onError) {
+        QByteArray zoneIdInByteArrayFormat = zoneId.toLatin1();
+        char *zoneIdWithProperFormat = zoneIdInByteArrayFormat.data();
 
+        ON_NATIVE_VIDEO_AD_AVAILABLE_CB_WRAPPER onAdAvailableWrapper = [onAdAvailable](char *arg_0, char *arg_1,
+                                                                                        char *arg_2, char *arg_3,
+                                                                                        char *arg_4, char *arg_5){
+            onAdAvailable(QString(arg_0), QString(arg_1), QString(arg_2),
+                          QString(arg_3), QString(arg_4), QString(arg_5));
+        };
+
+        ON_NATIVE_VIDEO_ERROR_CB_WRAPPER onErrorWrapper = [onError](char *arg_0){
+            onError(QString(arg_0));
+        };
+        
+        TSTapsell::requestNativeVideoAd(zoneIdWithProperFormat, onAdAvailableWrapper,
+                                         onNoAdAvailable, onNoNetwork, onErrorWrapper);
     }
 
     static void onNativeVideoAdShown(QString adId) {
-
+        QByteArray adIdInByteArrayFormat = adId.toLatin1();
+        char *adIdWithProperFormat = adIdInByteArrayFormat.data();
+        
+        TSTapsell::onNativeVideoAdShown(adIdWithProperFormat);
     }
 
     static void onNativeVideoAdClicked(QString adId) {
-
+        QByteArray adIdInByteArrayFormat = adId.toLatin1();
+        char *adIdWithProperFormat = adIdInByteArrayFormat.data();
+        
+        TSTapsell::onNativeVideoAdClicked(adIdWithProperFormat);
     }
 
     static void requestStandardBannerAd(QString zoneId, int bannerType,

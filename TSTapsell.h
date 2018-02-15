@@ -11,6 +11,15 @@
 #define ON_EXPIRING_CB std::function<void(char *)>
 #define ON_OPENED_CB std::function<void(char *)>
 #define ON_CLOSED_CB std::function<void(char *)>
+#define ON_NATIVE_BANNER_AD_AVAILABLE_CB std::function<void(char *, char *, char *, char *, char *, char *, char *)>
+#define ON_NATIVE_BANNER_ERROR_CB std::function<void(char *)>
+#define ON_NATIVE_BANNER_NO_AD_AVAILABLE_CB std::function<void()>
+#define ON_NATIVE_BANNER_NO_NETWORK_CB std::function<void()>
+
+#define ON_NATIVE_VIDEO_AD_AVAILABLE_CB std::function<void(char *, char *, char *, char *, char *, char *)>
+#define ON_NATIVE_VIDEO_ERROR_CB std::function<void(char *)>
+#define ON_NATIVE_VIDEO_NO_AD_AVAILABLE_CB std::function<void()>
+#define ON_NATIVE_VIDEO_NO_NETWORK_CB std::function<void()>
 
 class TSTapsell{
 public:
@@ -38,6 +47,22 @@ public:
     
     static void requestStandardBannerAd(char *zoneId, int bannerType,
                                         int horizontalGravity, int verticalGravity);
+    
+    static void requestNativeBannerAd(char *zoneId, ON_NATIVE_BANNER_AD_AVAILABLE_CB onAdAvailable,
+                                      ON_NATIVE_BANNER_NO_AD_AVAILABLE_CB onNoAdAvailable, ON_NATIVE_BANNER_NO_NETWORK_CB onNoNetwork,
+                                      ON_NATIVE_BANNER_ERROR_CB onError);
+    
+    static void onNativeBannerAdShown(char *adId);
+    
+    static void onNativeBannerAdClicked(char *adId);
+    
+    static void requestNativeVideoAd(char *zoneId, ON_NATIVE_VIDEO_AD_AVAILABLE_CB onAdAvailable,
+                                     ON_NATIVE_VIDEO_NO_AD_AVAILABLE_CB onNoAdAvailable, ON_NATIVE_VIDEO_NO_NETWORK_CB onNoNetwork,
+                                     ON_NATIVE_VIDEO_ERROR_CB onError);
+    
+    static void onNativeVideoAdShown(char *adId);
+    
+    static void onNativeVideoAdClicked(char *adId);
 };
 
 #endif // TSTAPSELL_H

@@ -34,22 +34,7 @@ QString NATIVE_BANNER_AD_ID = "";
 QString NATIVE_VIDEO_AD_ID = "";
 QString nativeMode = "banner";
 
-void MainWindow::on_pushButton_clicked()
-{
-//    Tapsell::requestAd(ZONE_ID, false, [&](QString adId) {
-//            qDebug() << "onAdAvailable" << endl;
-////            ui->pushButton_2->setEnabled(true);
-////            AD_ID = adId;
-//        }, []() {
-//            qDebug() << "onNoAdAvailable";
-//        }, []() {
-//            qDebug() << "onNoNetwork";
-//        }, [](QString error) {
-//            qDebug() << "onError: " << error;
-//        }, [](QString adId) {
-//            qDebug() << "onExpiring " << adId;
-//        });
-}
+void MainWindow::on_pushButton_clicked(){}
 
 void MainWindow::on_pushButton_2_clicked()
 {

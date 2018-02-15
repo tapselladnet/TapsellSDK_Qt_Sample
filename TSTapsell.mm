@@ -104,3 +104,71 @@ void TSTapsell::requestStandardBannerAd(char *zoneId, int bannerType,
                      andHorizGravity:NSNumberHorizontalGravity
                       andVertGravity:NSNumberVerticalGravity];
  }
+
+void TSTapsell::requestNativeBannerAd(char *zoneId,
+                                      ON_NATIVE_BANNER_AD_AVAILABLE_CB onAdAvailable,
+                           ON_NATIVE_BANNER_NO_AD_AVAILABLE_CB onNoAdAvailable,
+                                      ON_NATIVE_BANNER_NO_NETWORK_CB onNoNetwork,
+                                      ON_NATIVE_BANNER_ERROR_CB onError){
+    NSString *NSStringZoneId = [NSString stringWithUTF8String:zoneId];
+    
+    [Tapsell requestNativeBannerAdForZone:NSStringZoneId
+                            onAdAvailable:^(TSNativeBannerAdWrapper * _Nonnull nativeBannerAd) {
+                                onAdAvailable((char *)[nativeBannerAd.adId UTF8String],
+                                        (char *)[nativeBannerAd.title UTF8String],
+                                        (char *)[nativeBannerAd.htmlDescription UTF8String],
+                                        (char *)[nativeBannerAd.logoUrl UTF8String],
+                                        (char *)[nativeBannerAd.callToActionText UTF8String],
+                                        (char *)[nativeBannerAd.portriatImageUrl UTF8String],
+                                        (char *)[nativeBannerAd.landscapeImageUrl UTF8String]);
+    }
+                          onNoAdAvailable:^{
+        onNoAdAvailable();
+    }
+                                  onError:^(NSString * _Nullable error) {
+        onError((char *)[error UTF8String]);
+    }];
+}
+
+void TSTapsell::onNativeBannerAdShown(char *adId) {
+     NSString *NSStringAdId = [NSString stringWithUTF8String:adId];
+    
+    [Tapsell nativeBannerAdShowWithAdId: NSStringAdId];
+}
+
+void TSTapsell::onNativeBannerAdClicked(char *adId) {
+    NSString *NSStringAdId = [NSString stringWithUTF8String:adId];
+    
+    [Tapsell nativeBannerAdClickedWithAdId: NSStringAdId];
+}
+
+void TSTapsell::requestNativeVideoAd(char *zoneId, ON_NATIVE_VIDEO_AD_AVAILABLE_CB onAdAvailable,
+                                     ON_NATIVE_VIDEO_NO_AD_AVAILABLE_CB onNoAdAvailable, ON_NATIVE_VIDEO_NO_NETWORK_CB onNoNetwork,
+                                     ON_NATIVE_VIDEO_ERROR_CB onError){
+    NSString *NSStringZoneId = [NSString stringWithUTF8String:zoneId];
+    
+    [Tapsell requestNativeVideoAdForZone:NSStringZoneId onAdAvailable:^(TSNativeVideoAdWrapper * _Nonnull nativeVideoAd) {
+        onAdAvailable((char *)[nativeVideoAd.adId UTF8String],
+                      (char *)[nativeVideoAd.title UTF8String],
+                      (char *)[nativeVideoAd.htmlDescription UTF8String],
+                      (char *)[nativeVideoAd.logoUrl UTF8String],
+                      (char *)[nativeVideoAd.callToActionText UTF8String],
+                      (char *)[nativeVideoAd.videoUrl UTF8String]);
+    } onNoAdAvailable:^{
+        onNoAdAvailable();
+    } onError:^(NSString * _Nullable error) {
+        onError((char *)[error UTF8String]);
+    }];
+}
+
+void TSTapsell::onNativeVideoAdShown(char *adId) {
+    NSString *NSStringAdId = [NSString stringWithUTF8String:adId];
+    
+    [Tapsell nativeVideoAdShowWithAdId: NSStringAdId];
+}
+
+void TSTapsell::onNativeVideoAdClicked(char *adId) {
+    NSString *NSStringAdId = [NSString stringWithUTF8String:adId];
+    
+    [Tapsell nativeVideoAdClickedWithAdId: NSStringAdId];
+}
