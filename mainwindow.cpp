@@ -120,7 +120,7 @@ void MainWindow::on_pushButton_4_clicked()
 
 void MainWindow::on_pushButton_6_clicked()
 {
-    Tapsell::requestStandardBannerAd(STANDARD_BANNER_ZONEID, BANNER_320x50, BOTTOM, CENTER);
+    Tapsell::requestStandardBannerAd(STANDARD_BANNER_ZONEID, BANNER_320x100, BOTTOM, CENTER);
 }
 
 void MainWindow::requestAd(){

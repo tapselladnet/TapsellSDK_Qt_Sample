@@ -90,3 +90,17 @@ void TSTapsell::setRewardListener(ON_AD_SHOW_FINISHED onAdShowFinished){
 char *TSTapsell::getVersion(){
     return (char*)[[Tapsell getVersion] UTF8String];
 }
+
+void TSTapsell::requestStandardBannerAd(char *zoneId, int bannerType,
+                             int horizontalGravity, int verticalGravity){
+    NSString *NSStringZoneId = [NSString stringWithUTF8String:zoneId];
+    NSNumber *NSNumberBannerType = [NSNumber numberWithInteger:bannerType];
+    NSNumber *NSNumberHorizontalGravity = [NSNumber numberWithInteger:horizontalGravity];
+    NSNumber *NSNumberVerticalGravity = [NSNumber numberWithInteger:verticalGravity];
+    
+    
+    [TSBannerAdView loadAdWithZoneId: NSStringZoneId
+                       andBannerType:NSNumberBannerType
+                     andHorizGravity:NSNumberHorizontalGravity
+                      andVertGravity:NSNumberVerticalGravity];
+ }

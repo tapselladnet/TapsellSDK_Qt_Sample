@@ -108,7 +108,7 @@ public:
 
     }
     static QString getVersion() {
-        QAndroidJniObject version = QAndroidJniObject::callStaticMethod<QAndroidJniObject>(TAPSELL_CLASS.c_str(), "getVersion", "()Ljava/lang/String;");
+        QAndroidJniObject version = QAndroidJniObject::callStaticObjectMethod(TAPSELL_CLASS.c_str(), "getVersion", "()Ljava/lang/String;");
         return version.toString();
     }
     static void setPermissionHandlerConfig(int permissionHandlerConfig) {

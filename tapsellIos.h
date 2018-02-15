@@ -170,22 +170,6 @@ public:
         return QString(TSTapsell::getVersion());
     }
 
-    static void setPermissionHandlerConfig(int permissionHandlerConfig) {
-
-    }
-
-    static void setMaxAllowedBandwidthUsage(int maxBpsSpeed) {
-
-    }
-
-    static void setMaxAllowedBandwidthUsagePercentage(int maxPercentage) {
-
-    }
-
-    static void clearBandwidthUsageConstrains() {
-
-    }
-
     static void requestNativeBannerAd(QString zoneId, ON_NATIVE_BANNER_AD_AVAILABLE_CB onAdAvailable,
                           ON_NATIVE_BANNER_NO_AD_AVAILABLE_CB onNoAdAvailable, ON_NATIVE_BANNER_NO_NETWORK_CB onNoNetwork,
                           ON_NATIVE_BANNER_ERROR_CB onError) {
@@ -216,7 +200,10 @@ public:
 
     static void requestStandardBannerAd(QString zoneId, int bannerType,
                                         int horizontalGravity, int verticalGravity) {
-
+        QByteArray zoneIdInByteArrayFormat = zoneId.toLatin1();
+        char *zoneIdWithProperFormat = zoneIdInByteArrayFormat.data();
+        
+        TSTapsell::requestStandardBannerAd(zoneIdWithProperFormat, bannerType, horizontalGravity, verticalGravity);
     }
 
     static ON_AD_SHOW_FINISHED onAdShowFinishedCb;

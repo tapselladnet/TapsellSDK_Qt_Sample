@@ -35,6 +35,9 @@ public:
     static void setRewardListener(ON_AD_SHOW_FINISHED onAdShowFinished);
     
     static char *getVersion();
+    
+    static void requestStandardBannerAd(char *zoneId, int bannerType,
+                                        int horizontalGravity, int verticalGravity);
 };
 
 #endif // TSTAPSELL_H
