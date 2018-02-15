@@ -167,7 +167,7 @@ public:
     }
 
     static QString getVersion() {
-        return "version.toString()";
+        return QString(TSTapsell::getVersion());
     }
 
     static void setPermissionHandlerConfig(int permissionHandlerConfig) {

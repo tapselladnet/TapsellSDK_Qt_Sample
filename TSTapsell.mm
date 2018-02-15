@@ -86,3 +86,7 @@ void TSTapsell::setRewardListener(ON_AD_SHOW_FINISHED onAdShowFinished){
                          [ad isRewardedAd]);
     }];
 }
+
+char *TSTapsell::getVersion(){
+    return (char*)[[Tapsell getVersion] UTF8String];
+}

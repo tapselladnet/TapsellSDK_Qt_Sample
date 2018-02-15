@@ -33,6 +33,8 @@ public:
     static char *getAppUserId();
 
     static void setRewardListener(ON_AD_SHOW_FINISHED onAdShowFinished);
+    
+    static char *getVersion();
 };
 
 #endif // TSTAPSELL_H
