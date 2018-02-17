@@ -68,4 +68,4 @@ ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 
 ios: LIBS += -framework Foundation
 
-QMAKE_INFO_PLIST = info.plist
+QMAKE_INFO_PLIST = TapsellSDKAndHelpers/info.plist
