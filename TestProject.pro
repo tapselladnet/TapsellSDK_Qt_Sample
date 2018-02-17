@@ -43,12 +43,12 @@ android: HEADERS += \
     TapsellSDKAndHelpers/tapsellAndroid.h
 
 ios: SOURCES += \
+    TapsellSDKAndHelpers/tapsellIos.cpp \
 
 ios: HEADERS += \
     TapsellSDKAndHelpers/tapsellIos.h
 
 ios: OBJECTIVE_SOURCES += \
-    TapsellSDKAndHelpers/tapsellIos.cpp \
     TapsellSDKAndHelpers/TSTapsell.mm
 
 ios: OBJECTIVE_HEADERS += \
