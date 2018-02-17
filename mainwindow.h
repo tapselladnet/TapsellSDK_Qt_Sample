@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include <QString>
-#include "tapsell.h"
+#include "TapsellSDKAndHelpers/tapsell.h"
 
 const QString appKey = "qjmospqbfarbhodregqecbbnfhcjllkflpbpsmdrtpqkapdeptftldfiapfgbamkhalbij";
 const QString ZONE_ID = "59b4d07d468465281b792cb7";

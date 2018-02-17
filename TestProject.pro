@@ -31,40 +31,40 @@ SOURCES += \
 
 HEADERS += \
     mainwindow.h \
-    tapsell.h \
+    TapsellSDKAndHelpers/tapsell.h \
 
 FORMS += \
     mainwindow.ui
 
 android: SOURCES += \
-    tapsellAndroid.cpp
+    TapsellSDKAndHelpers/tapsellAndroid.cpp
 
 android: HEADERS += \
-    tapsellAndroid.h
+    TapsellSDKAndHelpers/tapsellAndroid.h
 
 ios: SOURCES += \
 
 ios: HEADERS += \
-    tapsellIos.h
+    TapsellSDKAndHelpers/tapsellIos.h
 
 ios: OBJECTIVE_SOURCES += \
-    tapsellIos.cpp \
-    TSTapsell.mm
+    TapsellSDKAndHelpers/tapsellIos.cpp \
+    TapsellSDKAndHelpers/TSTapsell.mm
 
 ios: OBJECTIVE_HEADERS += \
-    TSTapsell.h
+    TapsellSDKAndHelpers/TSTapsell.h
 
 android: DISTFILES += \
-    android/AndroidManifest.xml \
-    android/gradle/wrapper/gradle-wrapper.jar \
-    android/gradlew \
-    android/res/values/libs.xml \
-    android/build.gradle \
-    android/gradle/wrapper/gradle-wrapper.properties \
-    android/gradlew.bat \
-    android/src/ir/tapsell/sdk/Tapsell.java
+    TapsellSDKAndHelpers/android/AndroidManifest.xml \
+    TapsellSDKAndHelpers/android/gradle/wrapper/gradle-wrapper.jar \
+    TapsellSDKAndHelpers/android/gradlew \
+    TapsellSDKAndHelpers/android/res/values/libs.xml \
+    TapsellSDKAndHelpers/android/build.gradle \
+    TapsellSDKAndHelpers/android/gradle/wrapper/gradle-wrapper.properties \
+    TapsellSDKAndHelpers/android/gradlew.bat \
+    TapsellSDKAndHelpers/android/src/ir/tapsell/sdk/Tapsell.java
 
-ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
+ANDROID_PACKAGE_SOURCE_DIR = $$PWD/TapsellSDKAndHelpers/android
 
 ios: LIBS += -framework Foundation
 
