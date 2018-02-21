@@ -1,9 +1,3 @@
-#-------------------------------------------------
-#
-# Project created by QtCreator 2018-01-01T13:29:35
-#
-#-------------------------------------------------
-
 QT += core gui gui-private
 
 android: QT += androidextras
@@ -24,7 +18,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-
+#   TestProject sources
 SOURCES += \
     main.cpp \
     mainwindow.cpp
@@ -36,12 +30,7 @@ HEADERS += \
 FORMS += \
     mainwindow.ui
 
-android: SOURCES += \
-    TapsellSDKAndHelpers/tapsellAndroid.cpp
-
-android: HEADERS += \
-    TapsellSDKAndHelpers/tapsellAndroid.h
-
+#   Add these lines in order to use Tapsell IOS SDK (34 - 47)
 ios: SOURCES += \
     TapsellSDKAndHelpers/tapsellIos.cpp \
 
@@ -54,6 +43,24 @@ ios: OBJECTIVE_SOURCES += \
 ios: OBJECTIVE_HEADERS += \
     TapsellSDKAndHelpers/TSTapsell.h
 
+#   If you want to modify info.plist,just do it on TapsellSDKAndHelpers/info.plist
+QMAKE_INFO_PLIST = TapsellSDKAndHelpers/info.plist
+
+#   in order to embed Tapsell IOS binary framework please go to project settings and
+#   in 'Build Steps' for IOS section add a 'Custom Process Step' between qmake and make steps
+#   now, in command section just write 'python' and in arguments section add line below:
+#   %{sourceDir}/TapsellSDKAndHelpers/embed.py %{buildDir}/TestProject.xcodeproj %{sourceDir}/TapsellSDKAndHelpers/TapsellSDKv3.framework
+#   It is obvious that before these steps you have to download Tapsell Plugin from https://answers.tapsell.ir/?page_id=2572 and put it in
+#   project root directory.
+#   Note that you have to install python.
+
+#   Add these lines in order to use Tapsell ANDROID SDK (58 - 74)
+android: SOURCES += \
+    TapsellSDKAndHelpers/tapsellAndroid.cpp
+
+android: HEADERS += \
+    TapsellSDKAndHelpers/tapsellAndroid.h
+
 android: DISTFILES += \
     TapsellSDKAndHelpers/android/AndroidManifest.xml \
     TapsellSDKAndHelpers/android/gradle/wrapper/gradle-wrapper.jar \
@@ -65,7 +72,3 @@ android: DISTFILES += \
     TapsellSDKAndHelpers/android/src/ir/tapsell/sdk/Tapsell.java
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/TapsellSDKAndHelpers/android
-
-ios: LIBS += -framework Foundation
-
-QMAKE_INFO_PLIST = TapsellSDKAndHelpers/info.plist

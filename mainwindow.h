@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include <QString>
+#include <QDebug>
+
 #include "TapsellSDKAndHelpers/tapsell.h"
 
 const QString appKey = "qjmospqbfarbhodregqecbbnfhcjllkflpbpsmdrtpqkapdeptftldfiapfgbamkhalbij";

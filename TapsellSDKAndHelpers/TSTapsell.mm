@@ -1,5 +1,3 @@
-#import <Foundation/Foundation.h>
-
 #import "TSTapsell.h"
 #import <TapsellSDKv3/TapsellSDKv3.h>
 

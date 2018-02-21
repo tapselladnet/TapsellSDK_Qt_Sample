@@ -4,10 +4,6 @@
 #include <functional>
 #include <map>
 #include <QString>
-#include <QDebug>
-#include <QApplication>
-#include <string.h>
-#include <qpa/qplatformnativeinterface.h>
 
 #include "TSTapsell.h"
 

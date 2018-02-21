@@ -15,7 +15,6 @@
 #define ON_NATIVE_BANNER_ERROR_CB std::function<void(char *)>
 #define ON_NATIVE_BANNER_NO_AD_AVAILABLE_CB std::function<void()>
 #define ON_NATIVE_BANNER_NO_NETWORK_CB std::function<void()>
-
 #define ON_NATIVE_VIDEO_AD_AVAILABLE_CB std::function<void(char *, char *, char *, char *, char *, char *)>
 #define ON_NATIVE_VIDEO_ERROR_CB std::function<void(char *)>
 #define ON_NATIVE_VIDEO_NO_AD_AVAILABLE_CB std::function<void()>
