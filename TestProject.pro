@@ -62,13 +62,13 @@ android: HEADERS += \
     TapsellSDKAndHelpers/tapsellAndroid.h
 
 android: DISTFILES += \
-    TapsellSDKAndHelpers/android/AndroidManifest.xml \
-    TapsellSDKAndHelpers/android/gradle/wrapper/gradle-wrapper.jar \
-    TapsellSDKAndHelpers/android/gradlew \
-    TapsellSDKAndHelpers/android/res/values/libs.xml \
-    TapsellSDKAndHelpers/android/build.gradle \
-    TapsellSDKAndHelpers/android/gradle/wrapper/gradle-wrapper.properties \
-    TapsellSDKAndHelpers/android/gradlew.bat \
-    TapsellSDKAndHelpers/android/src/ir/tapsell/sdk/Tapsell.java
+    android/AndroidManifest.xml \
+    android/gradle/wrapper/gradle-wrapper.jar \
+    android/gradlew \
+    android/res/values/libs.xml \
+    android/build.gradle \
+    android/gradle/wrapper/gradle-wrapper.properties \
+    android/gradlew.bat \
+    android/src/ir/tapsell/sdk/Tapsell.java
 
-ANDROID_PACKAGE_SOURCE_DIR = $$PWD/TapsellSDKAndHelpers/android
+ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
