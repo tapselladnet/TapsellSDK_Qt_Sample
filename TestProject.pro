@@ -4,7 +4,9 @@
 #
 #-------------------------------------------------
 
-QT       += core gui androidextras gui-private
+QT += core gui gui-private
+
+android: QT += androidextras
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -13,7 +15,7 @@ TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which has been marked as deprecated (the exact warnings
-# depend on your compiler). Please consult the documentation of the
+# depend on your compiler). Please consult the docuentation of the
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
 
@@ -24,31 +26,46 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
-        main.cpp \
-        mainwindow.cpp \
-    tapsell.cpp
-
+    main.cpp \
+    mainwindow.cpp
 
 HEADERS += \
-        mainwindow.h \
-    tapsell.h
-
+    mainwindow.h \
+    TapsellSDKAndHelpers/tapsell.h \
 
 FORMS += \
-        mainwindow.ui
+    mainwindow.ui
 
-CONFIG += mobility
-MOBILITY = 
+android: SOURCES += \
+    TapsellSDKAndHelpers/tapsellAndroid.cpp
 
-DISTFILES += \
-    android/AndroidManifest.xml \
-    android/gradle/wrapper/gradle-wrapper.jar \
-    android/gradlew \
-    android/res/values/libs.xml \
-    android/build.gradle \
-    android/gradle/wrapper/gradle-wrapper.properties \
-    android/gradlew.bat \
-    android/src/ir/tapsell/sdk/Tapsell.java
+android: HEADERS += \
+    TapsellSDKAndHelpers/tapsellAndroid.h
 
-ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
+ios: SOURCES += \
+    TapsellSDKAndHelpers/tapsellIos.cpp \
 
+ios: HEADERS += \
+    TapsellSDKAndHelpers/tapsellIos.h
+
+ios: OBJECTIVE_SOURCES += \
+    TapsellSDKAndHelpers/TSTapsell.mm
+
+ios: OBJECTIVE_HEADERS += \
+    TapsellSDKAndHelpers/TSTapsell.h
+
+android: DISTFILES += \
+    TapsellSDKAndHelpers/android/AndroidManifest.xml \
+    TapsellSDKAndHelpers/android/gradle/wrapper/gradle-wrapper.jar \
+    TapsellSDKAndHelpers/android/gradlew \
+    TapsellSDKAndHelpers/android/res/values/libs.xml \
+    TapsellSDKAndHelpers/android/build.gradle \
+    TapsellSDKAndHelpers/android/gradle/wrapper/gradle-wrapper.properties \
+    TapsellSDKAndHelpers/android/gradlew.bat \
+    TapsellSDKAndHelpers/android/src/ir/tapsell/sdk/Tapsell.java
+
+ANDROID_PACKAGE_SOURCE_DIR = $$PWD/TapsellSDKAndHelpers/android
+
+ios: LIBS += -framework Foundation
+
+QMAKE_INFO_PLIST = TapsellSDKAndHelpers/info.plist

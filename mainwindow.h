@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include <QString>
-#include "tapsell.h"
+#include "TapsellSDKAndHelpers/tapsell.h"
 
 const QString appKey = "qjmospqbfarbhodregqecbbnfhcjllkflpbpsmdrtpqkapdeptftldfiapfgbamkhalbij";
 const QString ZONE_ID = "59b4d07d468465281b792cb7";
@@ -22,23 +22,23 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-
-
-private slots:
-    void on_pushButton_clicked();
-
-    void on_pushButton_2_clicked();
-
-    void on_pushButton_3_clicked();
-
-    void on_pushButton_5_clicked();
-
-    void on_pushButton_4_clicked();
-
-    void on_pushButton_6_clicked();
+    void enableShowButton();
 
 private:
     Ui::MainWindow *ui;
+    
+private slots:
+    void on_pushButton_clicked();
+    void on_pushButton_2_clicked();
+    void on_pushButton_3_clicked();
+    void on_pushButton_5_clicked();
+    void on_pushButton_4_clicked();
+    void on_pushButton_6_clicked();
+    void requestAd();
+    void enableShowButtonSlot();
+    
+signals:
+    void enableShowButtonSignal();
 };
 
 #endif // MAINWINDOW_H
