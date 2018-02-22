@@ -6,9 +6,10 @@ import android.widget.Toast;
 import android.content.Context;
 import ir.tapsell.sdk.TapsellQt;
 import ir.tapsell.sdk.TapsellQtListener;
+import ir.tapsell.sdk.bannerads.TapsellBannerViewEventListener;
 import ir.tapsell.sdk.nativeads.TapsellQtNativeListener;
 import ir.tapsell.sdk.TapsellQtModule;
-import ir.tapsell.sdk.bannerads.TapsellStandardBannerListener;
+import ir.tapsell.sdk.bannerads.TapsellQtBannerViewEventListener;
 
 public class Tapsell {
     public static native void onAdShowFinished(String zoneId, String adId, boolean completed, boolean rewarded);
@@ -31,6 +32,12 @@ public class Tapsell {
     public static native void onNativeVideoError(String zoneId, String error);
     public static native void onNativeVideoNoAdAvailable(String zoneId);
     public static native void onNativeVideoNoNetwork(String zoneId);
+
+    public static native void onStandardBannerNoAdAvailable(String zoneId);
+    public static native void onStandardBannerNoNetwork(String zoneId);
+    public static native void onStandardBannerError(String zoneId, String description);
+    public static native void onStandardBannerRequestFilled(String zoneId);
+    public static native void onStandardBannerHideBannerView(String zoneId);
 
     private static final int TOP = 1;
     private static final int BOTTOM = 2;
@@ -173,10 +180,34 @@ public class Tapsell {
     }
 
     public static void requestBannerAd(Activity activity, String zoneId, int bannerType,
-                                       int horizontalGravity, int verticalGravity,
-                                       TapsellStandardBannerListener tapsellStandardBannerListener) {
-        TapsellQtModule.requestBannerAd(activity, zoneId, bannerType, horizontalGravity,
-                verticalGravity, tapsellStandardBannerListener);
+                                       int horizontalGravity, int verticalGravity) {
+         TapsellQtModule.requestBannerAd(activity, zoneId, bannerType, horizontalGravity,
+                 verticalGravity, new TapsellQtBannerViewEventListener() {
+                     @Override
+                     public void onNoAdAvailable(String zoneId) {
+                         onStandardBannerNoAdAvailable(zoneId);
+                     }
+
+                     @Override
+                     public void onNoNetwork(String zoneId) {
+                         onStandardBannerNoNetwork(zoneId);
+                     }
+
+                     @Override
+                     public void onError(String zoneId, String s) {
+                         onStandardBannerError(zoneId, s);
+                     }
+
+                     @Override
+                     public void onRequestFilled(String zoneId) {
+                         onStandardBannerRequestFilled(zoneId);
+                     }
+
+                     @Override
+                     public void onHideBannerView(String zoneId) {
+                         onStandardBannerHideBannerView(zoneId);
+                     }
+                 });
     }
 
     public static void setDebugMode(Context context, boolean debug) {
