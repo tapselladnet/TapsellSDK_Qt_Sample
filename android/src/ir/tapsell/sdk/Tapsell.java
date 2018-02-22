@@ -8,6 +8,7 @@ import ir.tapsell.sdk.TapsellQt;
 import ir.tapsell.sdk.TapsellQtListener;
 import ir.tapsell.sdk.nativeads.TapsellQtNativeListener;
 import ir.tapsell.sdk.TapsellQtModule;
+import ir.tapsell.sdk.bannerads.TapsellStandardBannerListener;
 
 public class Tapsell {
     public static native void onAdShowFinished(String zoneId, String adId, boolean completed, boolean rewarded);
@@ -171,8 +172,11 @@ public class Tapsell {
         });
     }
 
-    public static void requestBannerAd(Activity activity, String zoneId, int bannerType, int horizontalGravity, int verticalGravity) {
-        TapsellQtModule.requestBannerAd(activity, zoneId, bannerType, horizontalGravity, verticalGravity);
+    public static void requestBannerAd(Activity activity, String zoneId, int bannerType,
+                                       int horizontalGravity, int verticalGravity,
+                                       TapsellStandardBannerListener tapsellStandardBannerListener) {
+        TapsellQtModule.requestBannerAd(activity, zoneId, bannerType, horizontalGravity,
+                verticalGravity, tapsellStandardBannerListener);
     }
 
     public static void setDebugMode(Context context, boolean debug) {
