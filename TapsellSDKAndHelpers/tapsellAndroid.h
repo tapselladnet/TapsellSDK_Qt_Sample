@@ -32,6 +32,12 @@ const std::string TAPSELL_CLASS = "ir/tapsell/sdk/Tapsell";
 #define ON_NATIVE_VIDEO_NO_AD_AVAILABLE_CB std::function<void()>
 #define ON_NATIVE_VIDEO_NO_NETWORK_CB std::function<void()>
 
+#define ON_STANDARD_BANNER_NO_AD_AVAILABLE_CB std::function<void()>
+#define ON_STANDARD_BANNER_NO_NETWORK_CB std::function<void()>
+#define ON_STANDARD_BANNER_ERROR_CB std::function<void(QString)>
+#define ON_STANDARD_BANNER_REQUEST_FILLED std::function<void()>
+#define ON_STANDARD_BANNER_HIDE_BANNER_VIEW std::function<void()>
+
 #define ROTATION_LOCKED_PORTRAIT 1
 #define ROTATION_LOCKED_LANDSCAPE 2
 #define ROTATION_UNLOCKED 3
@@ -167,6 +173,28 @@ public:
         QAndroidJniObject::callStaticMethod<void>(TAPSELL_CLASS.c_str(), "requestBannerAd", "(Landroid/app/Activity;Ljava/lang/String;III)V",
                                                   QtAndroid::androidActivity().object(), QAndroidJniObject::fromString(zoneId).object<jstring>(),
                                                   bannerType, horizontalGravity, verticalGravity);
+
+        onStandardBannerNoAdAvailableCbs[zoneId.toStdString()] = [](){};
+        onStandardBannerNoNetworkCbs[zoneId.toStdString()] = [](){};
+        onStandardBannerErrorCbs[zoneId.toStdString()] = [](QString adId){};
+        onStandardBannerRequestFilledCbs[zoneId.toStdString()] = [](){};
+        onStandardBannerHideBannerViewCbs[zoneId.toStdString()] = [](){};
+    }
+
+    static void requestStandardBannerAd(QString zoneId, int bannerType,
+                                        int horizontalGravity, int verticalGravity, ON_STANDARD_BANNER_NO_AD_AVAILABLE_CB onNoAdAvailable,
+                                        ON_STANDARD_BANNER_NO_NETWORK_CB onNoNetwork, ON_STANDARD_BANNER_ERROR_CB onError,
+                                        ON_STANDARD_BANNER_REQUEST_FILLED onRequestFailed, ON_STANDARD_BANNER_HIDE_BANNER_VIEW onHideBannerView) {
+
+        onStandardBannerNoAdAvailableCbs[zoneId.toStdString()] = onNoAdAvailable;
+        onStandardBannerNoNetworkCbs[zoneId.toStdString()] = onNoNetwork;
+        onStandardBannerErrorCbs[zoneId.toStdString()] = onError;
+        onStandardBannerRequestFilledCbs[zoneId.toStdString()] = onRequestFailed;
+        onStandardBannerHideBannerViewCbs[zoneId.toStdString()] = onHideBannerView;
+
+        QAndroidJniObject::callStaticMethod<void>(TAPSELL_CLASS.c_str(), "requestBannerAd", "(Landroid/app/Activity;Ljava/lang/String;III)V",
+                                                  QtAndroid::androidActivity().object(), QAndroidJniObject::fromString(zoneId).object<jstring>(),
+                                                  bannerType, horizontalGravity, verticalGravity);
     }
 
 
@@ -188,6 +216,12 @@ public:
     static std::map<std::string, ON_NATIVE_VIDEO_ERROR_CB> onNativeVideoErrorCbs;
     static std::map<std::string, ON_NATIVE_VIDEO_NO_AD_AVAILABLE_CB> onNativeVideoNoAdAvailableCbs;
     static std::map<std::string, ON_NATIVE_VIDEO_NO_NETWORK_CB> onNativeVideoNoNetworkCbs;
+
+    static std::map<std::string, ON_STANDARD_BANNER_NO_AD_AVAILABLE_CB> onStandardBannerNoAdAvailableCbs;
+    static std::map<std::string, ON_STANDARD_BANNER_NO_NETWORK_CB> onStandardBannerNoNetworkCbs;
+    static std::map<std::string, ON_STANDARD_BANNER_ERROR_CB> onStandardBannerErrorCbs;
+    static std::map<std::string, ON_STANDARD_BANNER_REQUEST_FILLED> onStandardBannerRequestFilledCbs;
+    static std::map<std::string, ON_STANDARD_BANNER_HIDE_BANNER_VIEW> onStandardBannerHideBannerViewCbs;
 };
 
 

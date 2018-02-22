@@ -104,7 +104,27 @@ void MainWindow::on_pushButton_4_clicked()
 
 void MainWindow::on_pushButton_6_clicked()
 {
-    Tapsell::requestStandardBannerAd(STANDARD_BANNER_ZONEID, BANNER_320x100, BOTTOM, CENTER);
+#ifdef Q_OS_ANDROID
+    Tapsell::requestStandardBannerAd(STANDARD_BANNER_ZONEID,
+                                     BANNER_320x100, BOTTOM,
+                                     CENTER,
+                                     [](){
+                                        qDebug() << "onStandardBannerNoAdAvailable" << endl;
+                                     }, [](){
+                                        qDebug() << "onStandardBannerNoNetwork" << endl;
+                                     }, [](QString error){
+                                        qDebug() << "onStandardBannerError: " << error << endl;
+                                     }, [](){
+                                        qDebug() << "onStandardBannerRequestFilled" << endl;
+                                     }, [](){
+                                        qDebug() << "onStandardBannerHideBannerView" << endl;
+                                     });
+#endif
+#ifdef Q_OS_IOS
+    Tapsell::requestStandardBannerAd(STANDARD_BANNER_ZONEID,
+                                     BANNER_320x100, BOTTOM,
+                                     CENTER);
+#endif
 }
 
 void MainWindow::requestAd(){
